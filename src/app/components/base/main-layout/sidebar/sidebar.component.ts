@@ -1,3 +1,4 @@
+import { UserType } from './../../../../shared/models/user.model';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
 
+  public whoUser: UserType = 'STUDENT';
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  public onLogout() {
+
   }
 
 }

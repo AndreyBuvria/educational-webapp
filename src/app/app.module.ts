@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 import { AppComponent } from './app.component';
 import { MainLayoutComponent } from './components/base/main-layout/main-layout.component';
 import { SidebarComponent } from './components/base/main-layout/sidebar/sidebar.component';
+import { MaterialModule } from './shared/modules/material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { SidebarComponent } from './components/base/main-layout/sidebar/sidebar.
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FlexLayoutModule
+    MaterialModule,
+    FlexLayoutModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

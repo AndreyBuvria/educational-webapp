@@ -1,1 +1,60 @@
-<p>sidebar works!</p>
+<mat-drawer-container class="container">
+  <mat-drawer #drawer mode="side" opened color="primary" class="sidenav">
+    <div class="profile">
+      <div class="profile-wrap">
+        <div class="profile-photo">
+          <mat-icon color="primary" class="mat-icon-rtl-mirror mat-icon">perm_identity</mat-icon>
+        </div>
+      </div>
+      <div class="profile-name">
+        <p>Username</p>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <ng-container *ngIf="whoUser == 'STUDENT'; else teacherTempl">
+        <mat-action-list class="list">
+          <a
+            mat-list-item
+            class="list-item"
+            href="#">
+            <span>My courses</span>
+          </a>
+          <a
+            mat-list-item
+            class="list-item"
+            href="#">
+            <span>Find course</span>
+          </a>
+          <a
+            mat-list-item
+            class="list-item"
+            href="#">
+            <span>Join course</span>
+          </a>
+        </mat-action-list>
+      </ng-container>
+
+      <ng-template #teacherTempl>
+        <mat-action-list class="list">
+          <a
+            mat-list-item
+            class="list-item"
+            href="#">
+            <span>My courses</span>
+          </a>
+          <a
+            mat-list-item
+            class="list-item"
+            href="#">
+            <span>Create course</span>
+          </a>
+        </mat-action-list>
+      </ng-template>
+    </nav>
+    <div class="btn-logout">
+      <button mat-button (click)="onLogout()">Logout</button>
+    </div>
+  </mat-drawer>
+  <mat-drawer-content class="content"></mat-drawer-content>
+</mat-drawer-container>
