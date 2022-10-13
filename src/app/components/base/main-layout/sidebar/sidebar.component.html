@@ -12,49 +12,76 @@
     </div>
 
     <nav class="nav">
-      <ng-container *ngIf="whoUser == 'STUDENT'; else teacherTempl">
-        <mat-action-list class="list">
-          <a
-            mat-list-item
-            class="list-item"
-            href="#">
-            <span>My courses</span>
-          </a>
-          <a
-            mat-list-item
-            class="list-item"
-            href="#">
-            <span>Find course</span>
-          </a>
-          <a
-            mat-list-item
-            class="list-item"
-            href="#">
-            <span>Join course</span>
-          </a>
-        </mat-action-list>
+      <ng-container *ngIf="whoUser != 'ANONYM'; else anonymous">
+        <ng-container *ngIf="whoUser == 'STUDENT'; then student; else teacher"></ng-container>
+
+        <ng-template #student>
+          <mat-action-list class="list">
+            <a
+              mat-list-item
+              class="list-item"
+              href="#">
+              <span>My courses</span>
+            </a>
+            <a
+              mat-list-item
+              class="list-item"
+              href="#">
+              <span>Find course</span>
+            </a>
+            <a
+              mat-list-item
+              class="list-item"
+              href="#">
+              <span>Join course</span>
+            </a>
+          </mat-action-list>
+        </ng-template>
+
+
+        <ng-template #teacher>
+          <mat-action-list class="list">
+            <a
+              mat-list-item
+              class="list-item"
+              href="#">
+              <span>My courses</span>
+            </a>
+            <a
+              mat-list-item
+              class="list-item"
+              href="#">
+              <span>Create course</span>
+            </a>
+          </mat-action-list>
+        </ng-template>
       </ng-container>
 
-      <ng-template #teacherTempl>
+
+      <ng-template #anonymous>
         <mat-action-list class="list">
           <a
             mat-list-item
             class="list-item"
             href="#">
-            <span>My courses</span>
+            <span>Login</span>
           </a>
           <a
             mat-list-item
             class="list-item"
             href="#">
-            <span>Create course</span>
+            <span>Signup</span>
           </a>
         </mat-action-list>
       </ng-template>
+
     </nav>
     <div class="btn-logout">
       <button mat-button (click)="onLogout()">Logout</button>
     </div>
   </mat-drawer>
-  <mat-drawer-content class="content"></mat-drawer-content>
+  <mat-drawer-content class="content">
+    <router-outlet></router-outlet>
+
+  </mat-drawer-content>
 </mat-drawer-container>
