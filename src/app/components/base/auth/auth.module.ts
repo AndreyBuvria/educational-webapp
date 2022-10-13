@@ -1,14 +1,15 @@
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CoursesComponent } from './course-list/courses.component';
-import { CourseComponent } from './course/course.component';
-import { MainLayoutComponent } from '../base/main-layout/main-layout.component';
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
+import { MainLayoutComponent } from '../main-layout/main-layout.component';
+
 
 @NgModule({
   declarations: [
-    CoursesComponent,
-    CourseComponent
+    LoginComponent,
+    SignupComponent,
   ],
   imports: [
     CommonModule,
@@ -19,16 +20,16 @@ import { MainLayoutComponent } from '../base/main-layout/main-layout.component';
         children: [
           {
             path: '',
-            redirectTo: 'course',
+            redirectTo: 'login',
             pathMatch: 'full',
           },
           {
-            path: 'course',
-            component: CoursesComponent,
+            path: 'login',
+            component: LoginComponent,
           },
           {
-            path: 'course/:id',
-            component: CourseComponent
+            path: 'signup',
+            component: SignupComponent
           },
           { path: '**', redirectTo: '' }
         ]
@@ -37,4 +38,4 @@ import { MainLayoutComponent } from '../base/main-layout/main-layout.component';
   ],
   exports: [RouterModule]
 })
-export class StudentModule { }
+export class AuthModule { }
