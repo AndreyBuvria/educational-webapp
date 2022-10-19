@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -11,10 +11,12 @@ export class LoginComponent implements OnInit {
 
   public hide: boolean = true;
   public form!: FormGroup;
-
+  public sumbitted: boolean = false;
   public validatorsLength: { firstname: number } = {
     firstname: 20,
   };
+
+  @ViewChild('commentNgForm') public commentNgForm!: NgForm;
 
   constructor(private router: Router, private route: ActivatedRoute) { }
 
@@ -32,6 +34,8 @@ export class LoginComponent implements OnInit {
   public onSubmit() {
     if (this.form.invalid) return;
 
+    this.sumbitted = true;
+
     const data = {
       username: this.form.get('username')!.value,
       password: this.form.get('password')!.value
@@ -39,7 +43,9 @@ export class LoginComponent implements OnInit {
 
     console.log(data);
 
-    this.form.reset();
+    this.commentNgForm.resetForm();
+
+    this.sumbitted = false;
   }
 
 }

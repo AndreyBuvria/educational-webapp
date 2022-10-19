@@ -1,5 +1,5 @@
 <div class="form-wrap" fxLayoutAlign="center center">
-  <form [formGroup]="form" (submit)="onSubmit()">
+  <form [formGroup]="form" #commentNgForm="ngForm" (submit)="onSubmit()">
     <div class="form" fxLayout="column">
       <h1 class="h-text">Sign up</h1>
 
@@ -23,6 +23,14 @@
         <mat-error *ngIf="form.get('email')?.invalid">{{ getEmailError() }}</mat-error>
       </mat-form-field>
 
+      <mat-form-field appearance="fill">
+        <mat-label>Select</mat-label>
+        <mat-select formControlName="role">
+          <mat-option value="student">Student</mat-option>
+          <mat-option value="teacher">Teacher</mat-option>
+        </mat-select>
+      </mat-form-field>
+
       <mat-form-field appearance="fill" class="form-control">
         <mat-label>Introduce yourself</mat-label>
         <textarea matInput placeholder="Tell about yourself" formControlName="about"></textarea>
@@ -41,11 +49,11 @@
       <mat-form-field appearance="fill" class="form-control">
         <mat-label>Enter your password again</mat-label>
         <input matInput [type]="hide ? 'password' : 'text'" formControlName="re_password">
-        <mat-error *ngIf="form.get('re_password')?.invalid || this.form.get('password')?.value != this.form.get('re_password')?.value">{{ getPasswordError() }}</mat-error>
+        <mat-error *ngIf="form.get('re_password')?.invalid">{{ getPasswordError() }}</mat-error>
       </mat-form-field>
 
       <a (click)="goLogin()" class="link-login">Do you have an account?</a>
-      <button type="submit" mat-raised-button color="primary">Submit</button>
+      <button type="submit" mat-raised-button [disabled]="sumbitted" color="primary">Submit</button>
     </div>
   </form>
 </div>
