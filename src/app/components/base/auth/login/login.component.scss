@@ -1,15 +1,27 @@
-.login-container {
+.form-wrap {
   height: 70%;
 }
 
-.login {
+.form {
   width: 420px;
+}
 
-  &-username {
-    padding-bottom: 14px;
-  }
+.form-control {
+  padding-bottom: 9px;
 }
 
 .h-text {
   font-size: 26px;
+}
+
+.link-signup {
+  display: block;
+  color: rgb(16, 16, 16);
+  text-decoration: none;
+  padding-bottom: 14px;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
