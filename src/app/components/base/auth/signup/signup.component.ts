@@ -15,9 +15,10 @@ export class SignupComponent implements OnInit {
   public form!: FormGroup;
   public sumbitted: boolean = false;
 
-  public validatorsLength: { firstname: number, username: number,} = {
+  public validatorsLength: { firstname: number, lastname: number, username: number,} = {
     firstname: 36,
-    username: 20
+    lastname: 40,
+    username: 20,
   };
 
   @ViewChild('commentNgForm') public commentNgForm!: NgForm;
@@ -27,6 +28,7 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
     this.form = new FormGroup({
       firstname: new FormControl('', [Validators.required, Validators.maxLength(this.validatorsLength.firstname)]),
+      lastname: new FormControl('', [Validators.required, Validators.maxLength(this.validatorsLength.lastname)]),
       username: new FormControl('', [Validators.required, Validators.maxLength(this.validatorsLength.username)]),
       role: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -49,6 +51,7 @@ export class SignupComponent implements OnInit {
 
     const data = {
       firstname: this.form.get('firstname')!.value,
+      lastname: this.form.get('lastname')!.value,
       username: this.form.get('username')!.value,
       role: this.form.get('role')!.value,
       email: this.form.get('email')!.value,

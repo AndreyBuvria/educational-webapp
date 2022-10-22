@@ -10,6 +10,13 @@
         <mat-error *ngIf="form.get('firstname')?.errors??['required']">Field must be filled</mat-error>
       </mat-form-field>
 
+      <mat-form-field hintLabel="Max {{ validatorsLength.lastname }} characters" appearance="fill" class="form-control">
+        <mat-label>First name</mat-label>
+        <input matInput [maxlength]="validatorsLength.lastname" placeholder="Enter your last name" formControlName="lastname">
+        <mat-hint align="end">{{form.get('lastname')?.value?.length}}/{{ validatorsLength.lastname }}</mat-hint>
+        <mat-error *ngIf="form.get('lastname')?.errors??['required']">Field must be filled</mat-error>
+      </mat-form-field>
+
       <mat-form-field hintLabel="Max {{ validatorsLength.username }} characters" appearance="fill" class="form-control">
         <mat-label>Username</mat-label>
         <input matInput [maxlength]="validatorsLength.username" placeholder="Enter your username" formControlName="username">
@@ -54,6 +61,7 @@
 
       <a (click)="goLogin()" class="link-login">Do you have an account?</a>
       <button type="submit" mat-raised-button [disabled]="sumbitted" color="primary">Submit</button>
+      <div style="padding-bottom: 20px;"></div>
     </div>
   </form>
 </div>

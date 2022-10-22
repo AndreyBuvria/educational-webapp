@@ -77,7 +77,7 @@
 
     </nav>
     <div class="btn-logout">
-      <button mat-button (click)="onLogout()">Logout</button>
+      <button mat-button *ngIf="whoUser !== 'ANONYM'" (click)="onLogout()">Logout</button>
     </div>
   </mat-drawer>
   <mat-drawer-content class="content">
