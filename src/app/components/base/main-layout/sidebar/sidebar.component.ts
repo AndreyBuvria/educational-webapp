@@ -1,6 +1,6 @@
+import { User } from './../../../../shared/interfaces/user.interface';
 import { UserType } from './../../../../shared/models/user.model';
-import { Component, OnInit } from '@angular/core';
-
+import { Component, Input, OnInit } from '@angular/core';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
 
-  public whoUser: UserType = 'ANONYM';
+  @Input() public user!: User;
 
   constructor() { }
 

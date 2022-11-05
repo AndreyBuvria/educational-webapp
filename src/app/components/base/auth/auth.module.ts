@@ -1,3 +1,4 @@
+import { AuthGuard } from './../../../shared/guards/auth.guard';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -42,6 +43,7 @@ import { ReactiveFormsModule } from '@angular/forms';
       }
     ])
   ],
+  providers: [AuthGuard],
   exports: [RouterModule]
 })
 export class AuthModule { }

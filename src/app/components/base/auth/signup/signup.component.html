@@ -7,21 +7,21 @@
         <mat-label>First name</mat-label>
         <input matInput [maxlength]="validatorsLength.firstname" placeholder="Enter your first name" formControlName="firstname">
         <mat-hint align="end">{{form.get('firstname')?.value?.length}}/{{ validatorsLength.firstname }}</mat-hint>
-        <mat-error *ngIf="form.get('firstname')?.errors??['required']">Field must be filled</mat-error>
+        <mat-error *ngIf="form.get('firstname')?.errors??['required']">Incorrect data</mat-error>
       </mat-form-field>
 
       <mat-form-field hintLabel="Max {{ validatorsLength.lastname }} characters" appearance="fill" class="form-control">
-        <mat-label>First name</mat-label>
+        <mat-label>Last name</mat-label>
         <input matInput [maxlength]="validatorsLength.lastname" placeholder="Enter your last name" formControlName="lastname">
         <mat-hint align="end">{{form.get('lastname')?.value?.length}}/{{ validatorsLength.lastname }}</mat-hint>
-        <mat-error *ngIf="form.get('lastname')?.errors??['required']">Field must be filled</mat-error>
+        <mat-error *ngIf="form.get('lastname')?.errors??['required']">Incorrect data</mat-error>
       </mat-form-field>
 
       <mat-form-field hintLabel="Max {{ validatorsLength.username }} characters" appearance="fill" class="form-control">
         <mat-label>Username</mat-label>
         <input matInput [maxlength]="validatorsLength.username" placeholder="Enter your username" formControlName="username">
         <mat-hint align="end">{{form.get('username')?.value?.length}}/{{ validatorsLength.username }}</mat-hint>
-        <mat-error *ngIf="form.get('username')?.errors??['required']">Field must be filled</mat-error>
+        <mat-error *ngIf="form.get('username')?.errors??['required']">Incorrect data</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="form-control">
@@ -41,27 +41,28 @@
       <mat-form-field appearance="fill" class="form-control">
         <mat-label>Introduce yourself</mat-label>
         <textarea matInput placeholder="Tell about yourself" formControlName="about"></textarea>
-        <mat-error *ngIf="form.get('about')?.errors??['required']">Field must be filled</mat-error>
+        <mat-error *ngIf="form.get('about')?.errors??['required']">Incorrect data</mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="fill" class="form-control">
+      <mat-form-field hintLabel="Min {{ validatorsLength.password }} characters" appearance="fill" class="form-control">
         <mat-label>Enter your password</mat-label>
         <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
         <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
-        <mat-error *ngIf="form.get('password')?.errors??['required']">Field must be filled</mat-error>
+        <mat-hint align="end">{{form.get('password')?.value?.length}}</mat-hint>
+        <mat-error *ngIf="form.get('password')?.errors??['required']">Incorrect data</mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="fill" class="form-control">
+      <mat-form-field hintLabel="Min {{ validatorsLength.password }} characters" appearance="fill" class="form-control">
         <mat-label>Enter your password again</mat-label>
         <input matInput [type]="hide ? 'password' : 'text'" formControlName="re_password">
+        <mat-hint align="end">{{form.get('re_password')?.value?.length}}</mat-hint>
         <mat-error *ngIf="form.get('re_password')?.invalid">{{ getPasswordError() }}</mat-error>
       </mat-form-field>
 
       <a (click)="goLogin()" class="link-login">Do you have an account?</a>
-      <button type="submit" mat-raised-button [disabled]="sumbitted" color="primary">Submit</button>
-      <div style="padding-bottom: 20px;"></div>
+      <button type="submit" mat-raised-button [disabled]="sumbitted" style="margin-bottom: 14px;" color="primary">Submit</button>
     </div>
   </form>
 </div>

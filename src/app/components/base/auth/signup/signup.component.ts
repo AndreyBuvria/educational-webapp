@@ -1,7 +1,12 @@
+import { TokenJWT } from './../../../../shared/interfaces/user.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { checkPasswordMatch } from 'src/app/shared/validators/password.validator';
+import { Subject, takeUntil } from 'rxjs';
+import { AuthService } from 'src/app/shared/services/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @Component({
@@ -15,15 +20,22 @@ export class SignupComponent implements OnInit {
   public form!: FormGroup;
   public sumbitted: boolean = false;
 
-  public validatorsLength: { firstname: number, lastname: number, username: number,} = {
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  public validatorsLength: { firstname: number, lastname: number, username: number, password: number} = {
     firstname: 36,
     lastname: 40,
     username: 20,
+    password: 8,
   };
 
   @ViewChild('commentNgForm') public commentNgForm!: NgForm;
 
-  constructor(private router: Router, private route: ActivatedRoute) { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private auth: AuthService,
+    private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -33,8 +45,8 @@ export class SignupComponent implements OnInit {
       role: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
       about: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required]),
-      re_password: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required, Validators.minLength(this.validatorsLength.password)]),
+      re_password: new FormControl('', [Validators.required, Validators.minLength(this.validatorsLength.password)]),
     });
 
     this.form.get('re_password')?.addValidators([checkPasswordMatch(this.form.controls['password'])]);
@@ -59,22 +71,39 @@ export class SignupComponent implements OnInit {
       password: this.form.get('password')!.value,
     };
 
-    console.log(data);
+    this.auth.signup(data)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          this.commentNgForm.resetForm();
+          console.log(response);
+          this.router.navigate(['../login'], { relativeTo: this.route });
+        },
+        error: (err) => {
+          const errorKeys = Object.keys(err.error);
+          for (const key of errorKeys) {
+            this.form.get(key)?.setErrors({'incorrect': true})
+          }
 
-    this.commentNgForm.resetForm();
+          const snackBarRef = this.snackBar.open('Check the correctness of the entered data', 'Close', {
+            duration: 5000,
+            horizontalPosition: 'end'
+          });
+        }
+      });
 
     this.sumbitted = false;
   }
 
   /* Errors */
   public getEmailError() {
-    if (this.form.get('email')?.hasError('required')) return 'Field must be filled';
+    if (this.form.get('email')?.hasError('required')) return 'Incorrect data';
 
     return this.form.get('email')?.hasError('email') ? 'Not a valid email' : '';
   }
 
   public getPasswordError() {
-    if (this.form.get('re_password')?.hasError('required')) return 'Field must be filled';
+    if (this.form.get('re_password')?.hasError('required')) return 'Incorrect data';
 
     return this.form.get('re_password')?.hasError('compare') ? 'Password does not match' : '';
   }

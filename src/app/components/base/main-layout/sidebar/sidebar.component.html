@@ -1,19 +1,19 @@
 <mat-drawer-container class="container">
   <mat-drawer #drawer mode="side" opened color="primary" class="sidenav">
-    <div class="profile">
+    <div *ngIf="user" class="profile">
       <div class="profile-wrap">
         <div class="profile-photo">
           <mat-icon color="primary" class="mat-icon-rtl-mirror mat-icon">perm_identity</mat-icon>
         </div>
       </div>
       <div class="profile-name">
-        <p>Username</p>
+        <p>{{ user.username }}</p>
       </div>
     </div>
 
     <nav class="nav">
-      <ng-container *ngIf="whoUser != 'ANONYM'; else anonymous">
-        <ng-container *ngIf="whoUser == 'STUDENT'; then student; else teacher"></ng-container>
+      <ng-container *ngIf="user?.role; else anonymous">
+        <ng-container *ngIf="user.role.toUpperCase() == 'STUDENT'; then student; else teacher"></ng-container>
 
         <ng-template #student>
           <mat-action-list class="list">
@@ -76,8 +76,8 @@
       </ng-template>
 
     </nav>
-    <div class="btn-logout">
-      <button mat-button *ngIf="whoUser !== 'ANONYM'" (click)="onLogout()">Logout</button>
+    <div *ngIf="user" class="btn-logout">
+      <button mat-button (click)="onLogout()">Logout</button>
     </div>
   </mat-drawer>
   <mat-drawer-content class="content">
