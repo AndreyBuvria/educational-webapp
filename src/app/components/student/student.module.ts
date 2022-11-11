@@ -35,6 +35,8 @@ import { MainLayoutComponent } from '../base/main-layout/main-layout.component';
       }
     ])
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [
+  ]
 })
 export class StudentModule { }

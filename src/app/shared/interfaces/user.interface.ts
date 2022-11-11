@@ -1,5 +1,9 @@
-import { UserType } from './../models/user.model';
+enum UserRole {
+  STUDENT,
+  TEACHER,
+}
 
+export type UserType = keyof typeof UserRole;
 export interface User {
   id: number,
   firstname: string,
@@ -13,6 +17,12 @@ export interface User {
   timecreate: string,
   is_superuser: boolean,
   img?: string
+}
+
+export interface UserSimple {
+  id: string ,
+  username: string,
+  role: UserType,
 }
 
 export interface TokenJWT {

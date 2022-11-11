@@ -43,7 +43,7 @@ import { ReactiveFormsModule } from '@angular/forms';
       }
     ])
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard,],
   exports: [RouterModule]
 })
 export class AuthModule { }

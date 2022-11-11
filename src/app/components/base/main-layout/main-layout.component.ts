@@ -1,7 +1,9 @@
+import { AuthService } from 'src/app/shared/services/auth.service';
+import { CookieService } from 'ngx-cookie-service';
 import { UserApiService } from './../../../shared/services/user-api.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { User } from 'src/app/shared/interfaces/user.interface';
+import { UserSimple, UserType } from 'src/app/shared/interfaces/user.interface';
 
 @Component({
   selector: 'app-main-layout',
@@ -10,21 +12,15 @@ import { User } from 'src/app/shared/interfaces/user.interface';
 })
 export class MainLayoutComponent implements OnInit, OnDestroy {
 
-  public user!: User;
+  public userSimple!: UserSimple | null
 
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-
-  constructor(private userService: UserApiService,) { }
+  constructor(private userService: UserApiService, private cookie: CookieService) { }
 
   ngOnInit(): void {
-    if (this.userService.user) {
-      console.log(this.userService.user);
-    }
+    this.userSimple = this.userService.getUserLocalData();
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 
 }

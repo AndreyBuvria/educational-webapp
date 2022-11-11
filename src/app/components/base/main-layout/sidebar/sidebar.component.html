@@ -12,8 +12,8 @@
     </div>
 
     <nav class="nav">
-      <ng-container *ngIf="user?.role; else anonymous">
-        <ng-container *ngIf="user.role.toUpperCase() == 'STUDENT'; then student; else teacher"></ng-container>
+      <ng-container *ngIf="user; else anonymous">
+        <ng-container *ngIf="user.role == 'STUDENT'; then student; else teacher"></ng-container>
 
         <ng-template #student>
           <mat-action-list class="list">

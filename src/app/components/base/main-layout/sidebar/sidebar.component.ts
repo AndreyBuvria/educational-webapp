@@ -1,5 +1,4 @@
-import { User } from './../../../../shared/interfaces/user.interface';
-import { UserType } from './../../../../shared/models/user.model';
+import { User, UserSimple } from './../../../../shared/interfaces/user.interface';
 import { Component, Input, OnInit } from '@angular/core';
 @Component({
   selector: 'app-sidebar',
@@ -8,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
 
-  @Input() public user!: User;
+  @Input() public user!: UserSimple | null;
 
   constructor() { }
 
@@ -16,7 +15,7 @@ export class SidebarComponent implements OnInit {
   }
 
   public onLogout() {
-
+   // console.log(this.user);
   }
 
 }

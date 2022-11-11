@@ -1,6 +1,6 @@
 import { environment } from './../../../environments/environment';
 import { CookieService } from 'ngx-cookie-service';
-import { TokenJWT, User, UserLogin, UserSignup } from './../interfaces/user.interface';
+import { UserLogin, UserSignup } from './../interfaces/user.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -21,10 +21,28 @@ export class AuthService {
   }
 
   public refreshToken(refreshToken: string): Observable<any> {
-    return this.http.post(environment.API_URL + 'token/refresh/', refreshToken);
+    return this.http.post(environment.API_URL + 'token/refresh/', { refresh: refreshToken });
   }
 
   public verifyToken(token: string): Observable<any> {
     return this.http.post(environment.API_URL + 'token/verify/', token);
+  }
+
+  public parseUserAccessToken(token_access: string) {
+    let base64Url = token_access.split('.')[1];
+    let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    let jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+  }
+
+  public refreshTokenExists() {
+    return this.cookie.check('token_refresh');
+  }
+
+  public accessTokenExists() {
+    return this.cookie.check('token_access');
   }
 }
