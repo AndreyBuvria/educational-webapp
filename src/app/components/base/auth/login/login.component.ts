@@ -90,15 +90,13 @@ export class LoginComponent implements OnInit, OnDestroy {
         },
         error: (err) => {
           console.log(err);
-          if (err.error.detail) {
-            this.form.get('username')?.setErrors({'incorrect': true});
-            this.form.get('password')?.setErrors({'incorrect': true});
+          this.form.get('username')?.setErrors({'incorrect': true});
+          this.form.get('password')?.setErrors({'incorrect': true});
 
-            const snackBarRef = this.snackBar.open('Check the correctness of the entered data', 'Close', {
-              duration: 5000,
-              horizontalPosition: 'end'
-            });
-          }
+          const snackBarRef = this.snackBar.open('Check the correctness of the entered data', 'Close', {
+            duration: 5000,
+            horizontalPosition: 'end'
+          });
         }
       });
     this.sumbitted = false;

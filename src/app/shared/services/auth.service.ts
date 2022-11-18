@@ -28,6 +28,12 @@ export class AuthService {
     return this.http.post(environment.API_URL + 'token/verify/', token);
   }
 
+  public removeToken() {
+    this.cookie.delete('token_refresh', '/');
+    this.cookie.delete('token_access', '/');
+    localStorage.removeItem('usr');
+  }
+
   public parseUserAccessToken(token_access: string) {
     let base64Url = token_access.split('.')[1];
     let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');

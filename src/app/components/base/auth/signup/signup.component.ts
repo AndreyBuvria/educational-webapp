@@ -80,15 +80,22 @@ export class SignupComponent implements OnInit {
           this.router.navigate(['../login'], { relativeTo: this.route });
         },
         error: (err) => {
-          const errorKeys = Object.keys(err.error);
-          for (const key of errorKeys) {
-            this.form.get(key)?.setErrors({'incorrect': true})
-          }
+          if (err.status) {
+            const errorKeys = Object.keys(err.error);
+            for (const key of errorKeys) {
+              this.form.get(key)?.setErrors({'incorrect': true})
+            }
 
-          const snackBarRef = this.snackBar.open('Check the correctness of the entered data', 'Close', {
-            duration: 5000,
-            horizontalPosition: 'end'
-          });
+            const snackBarRef = this.snackBar.open('Check the correctness of the entered data', 'Close', {
+              duration: 5000,
+              horizontalPosition: 'end'
+            });
+          } else {
+            const snackBarRef = this.snackBar.open('Something went wrong', 'Close', {
+              duration: 5000,
+              horizontalPosition: 'end'
+            });
+          }
         }
       });
 

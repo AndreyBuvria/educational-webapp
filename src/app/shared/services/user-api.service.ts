@@ -1,3 +1,4 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { UserType } from './../interfaces/user.interface';
 import { environment } from './../../../environments/environment';
@@ -11,7 +12,7 @@ import { UserSimple } from '../interfaces/user.interface';
 })
 export class UserApiService {
 
-  constructor(private http: HttpClient, private auth: AuthService) { }
+  constructor(private http: HttpClient, private auth: AuthService, private router: Router) { }
 
   public getUsers(): Observable<any> {
     return this.http.get(environment.API_URL + 'users/');
@@ -22,23 +23,23 @@ export class UserApiService {
   }
 
   public storeUser(username: string, id: string, role: string) {
-    localStorage.setItem('usrname', username);
-    localStorage.setItem('usrid', id);
-    localStorage.setItem('usrrole', role);
+    const userData = {
+      id: id,
+      username: username,
+      role: role
+    }
+    localStorage.setItem('usr', JSON.stringify(userData));
   }
 
   public getUserLocalData(): UserSimple | null {
-    const id = localStorage.getItem('usrid')
-    const username = localStorage.getItem('usrname');
-    const role = localStorage.getItem('usrrole') as UserType;
+    const usrData = localStorage.getItem('usr');
 
-
-    return id && username && role ? {
-      id: id,
-      username: username,
-      role: role,
-    } : null
+    return usrData ? JSON.parse(usrData) : null;
   }
 
+  public onLogout() {
+    this.auth.removeToken();
+    this.router.navigate(['/', 'auth']);
+  }
 
 }

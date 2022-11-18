@@ -1,4 +1,5 @@
-import { User, UserSimple } from './../../../../shared/interfaces/user.interface';
+import { UserApiService } from './../../../../shared/services/user-api.service';
+import { UserSimple } from './../../../../shared/interfaces/user.interface';
 import { Component, Input, OnInit } from '@angular/core';
 @Component({
   selector: 'app-sidebar',
@@ -9,13 +10,13 @@ export class SidebarComponent implements OnInit {
 
   @Input() public user!: UserSimple | null;
 
-  constructor() { }
+  constructor(private userService: UserApiService) { }
 
   ngOnInit(): void {
   }
 
   public onLogout() {
-   // console.log(this.user);
+    this.userService.onLogout();
   }
 
 }
