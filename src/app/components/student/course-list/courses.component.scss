@@ -1,0 +1,24 @@
+.wrapper {
+  padding: 15px 38px;
+}
+
+.header {
+  &-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  &-col {
+    flex: 1;
+  }
+}
+
+.course-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  mat-card {
+    flex: 1 1 25%;
+  }
+}

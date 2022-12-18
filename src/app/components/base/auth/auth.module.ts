@@ -9,7 +9,6 @@ import { MainLayoutComponent } from '../main-layout/main-layout.component';
 import { MaterialModule } from 'src/app/shared/modules/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 
-
 @NgModule({
   declarations: [
     LoginComponent,

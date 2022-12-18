@@ -1,4 +1,3 @@
-import { TokenJWT } from './../../../../shared/interfaces/user.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
@@ -6,8 +5,6 @@ import { checkPasswordMatch } from 'src/app/shared/validators/password.validator
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CookieService } from 'ngx-cookie-service';
-
 
 @Component({
   selector: 'app-signup',
@@ -71,6 +68,8 @@ export class SignupComponent implements OnInit {
       password: this.form.get('password')!.value,
     };
 
+    console.log(data);
+
     this.auth.signup(data)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
@@ -80,6 +79,7 @@ export class SignupComponent implements OnInit {
           this.router.navigate(['../login'], { relativeTo: this.route });
         },
         error: (err) => {
+          console.log(err);
           if (err.status) {
             const errorKeys = Object.keys(err.error);
             for (const key of errorKeys) {

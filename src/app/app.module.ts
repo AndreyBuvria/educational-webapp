@@ -12,12 +12,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { TokenInterceptor } from './shared/interceptors/token.interceptor';
+import { WelcomeComponent } from './components/base/welcome/welcome.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainLayoutComponent,
     SidebarComponent,
+    WelcomeComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,12 +1,13 @@
 import { UserApiService } from './../../../../shared/services/user-api.service';
 import { CookieService } from 'ngx-cookie-service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { TokenJWT, User, UserSimple } from './../../../../shared/interfaces/user.interface';
+import { TokenJWT, User } from './../../../../shared/interfaces/user.interface';
 import { AuthService } from './../../../../shared/services/auth.service';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, Subject, switchMap, takeUntil } from 'rxjs';
+import { Subject, switchMap, takeUntil } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     firstname: 20,
   };
 
-  private userID!: number;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   @ViewChild('commentNgForm') public commentNgForm!: NgForm;
@@ -47,19 +47,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public setTokenCookie(token: TokenJWT) {
-    const cookieExists: boolean = this.cookie.check('token_access') && this.cookie.check('token_refresh');
-    const refreshLifetime: Date = new Date(Date.now() + +token.refresh_token_lifetime);
-    const accessLifetime: Date = new Date(Date.now() + +token.access_token_lifetime);
-
-    console.log(refreshLifetime);
+    const cookieExists: boolean = this.auth.accessTokenExists() || this.auth.refreshTokenExists();
 
     if (cookieExists) {
       this.cookie.delete('token_access');
       this.cookie.delete('token_refresh');
     }
 
-    this.cookie.set('token_access', token.access, accessLifetime, '/');
-    this.cookie.set('token_refresh', token.refresh, refreshLifetime, '/');
+    this.auth.setAccessToken(token.access);
+    this.auth.setRefreshToken(token.refresh);
   }
 
   public onSubmit() {
@@ -75,18 +71,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.auth.obtainToken(data)
       .pipe(takeUntil(this.destroy$))
       .pipe(switchMap((token: TokenJWT) => {
-        this.userID = this.auth.parseUserAccessToken(token.access).user_id;
         this.setTokenCookie(token);
-        return this.userService.getUser(this.userID);
-      }))
-      .pipe(map((data): UserSimple => {
-        return { id: data['id'], username: data['username'], role: data['role'].toUpperCase()}
+        const parsedToken = this.auth.parseJWTToken(token.refresh);
+        return this.userService.getUser(parsedToken.user_id);
       }))
       .subscribe({
-        next: (user: UserSimple) => {
-          this.userService.storeUser(user.username, user.id, user.role);
-          this.commentNgForm.resetForm();
-          user.role == 'STUDENT' ? this.router.navigate(['/', 'student']) : this.router.navigate(['/', 'teacher']);
+        next: (user: User) => {
+          this.userService.storeUser(user);
+          this.router.navigate(['/', 'student']);
         },
         error: (err) => {
           console.log(err);

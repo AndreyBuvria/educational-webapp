@@ -63,13 +63,13 @@
           <a
             mat-list-item
             class="list-item"
-            href="#">
+            routerLink="login">
             <span>Login</span>
           </a>
           <a
             mat-list-item
             class="list-item"
-            href="#">
+            routerLink="signup">
             <span>Signup</span>
           </a>
         </mat-action-list>
@@ -80,7 +80,7 @@
       <button mat-button (click)="onLogout()">Logout</button>
     </div>
   </mat-drawer>
-  <mat-drawer-content class="content">
+  <mat-drawer-content class="content" style="margin-left: 184px;">
     <router-outlet></router-outlet>
 
   </mat-drawer-content>

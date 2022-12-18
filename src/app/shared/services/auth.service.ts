@@ -1,16 +1,18 @@
 import { environment } from './../../../environments/environment';
 import { CookieService } from 'ngx-cookie-service';
-import { UserLogin, UserSignup } from './../interfaces/user.interface';
+import { UserLogin, UserSignup, TokenBody } from './../interfaces/user.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private http: HttpClient, private cookie: CookieService) { }
+  constructor(private http: HttpClient, private cookie: CookieService, private router: Router) {
+  }
 
   public signup(data: UserSignup): Observable<any> {
     return this.http.post(environment.API_URL + 'signup/', data);
@@ -25,17 +27,20 @@ export class AuthService {
   }
 
   public verifyToken(token: string): Observable<any> {
-    return this.http.post(environment.API_URL + 'token/verify/', token);
+    return this.http.post(environment.API_URL + 'token/verify/', { token: token});
+  }
+
+  public verifyUserRoleByToken(accessToken: string): Observable<any> {
+    return this.http.post(environment.API_URL + 'role/verify/', { token: accessToken});
   }
 
   public removeToken() {
     this.cookie.delete('token_refresh', '/');
     this.cookie.delete('token_access', '/');
-    localStorage.removeItem('usr');
   }
 
-  public parseUserAccessToken(token_access: string) {
-    let base64Url = token_access.split('.')[1];
+  public parseJWTToken(token: string): TokenBody {
+    let base64Url = token.split('.')[1];
     let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     let jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
@@ -44,11 +49,35 @@ export class AuthService {
     return JSON.parse(jsonPayload);
   }
 
+  public setAccessToken(token: string) {
+    const tokenBody: TokenBody = this.parseJWTToken(token);
+    const expires: Date = new Date(0);
+    expires.setUTCSeconds(tokenBody.exp);
+    this.cookie.set('token_access', token, expires, '/');
+  }
+
+  public setRefreshToken(token: string) {
+    const tokenBody: TokenBody = this.parseJWTToken(token);
+    const expires: Date = new Date(0);
+    expires.setUTCSeconds(tokenBody.exp);
+    this.cookie.set('token_refresh', token, expires, '/');
+  }
+
   public refreshTokenExists() {
     return this.cookie.check('token_refresh');
   }
 
   public accessTokenExists() {
     return this.cookie.check('token_access');
+  }
+
+  public isLoggedIn() {
+    return this.cookie.check('token_refresh') && localStorage.getItem('usr');
+  }
+
+  public onLogout() {
+    this.removeToken();
+    localStorage.removeItem('usr');
+    this.router.navigate(['/', 'auth']);
   }
 }

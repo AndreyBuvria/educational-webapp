@@ -1,3 +1,4 @@
+import { MaterialModule } from 'src/app/shared/modules/material.module';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -12,6 +13,7 @@ import { MainLayoutComponent } from '../base/main-layout/main-layout.component';
   ],
   imports: [
     CommonModule,
+    MaterialModule,
     RouterModule.forChild([
       {
         path: '',

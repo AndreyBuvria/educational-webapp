@@ -1,9 +1,9 @@
-enum UserRole {
+enum UserRoles {
   STUDENT,
   TEACHER,
 }
 
-export type UserType = keyof typeof UserRole;
+export type UserType = keyof typeof UserRoles;
 export interface User {
   id: number,
   firstname: string,
@@ -18,18 +18,22 @@ export interface User {
   is_superuser: boolean,
   img?: string
 }
-
 export interface UserSimple {
-  id: string ,
   username: string,
   role: UserType,
+}
+
+export interface TokenBody {
+  token_type: string,
+  exp: number,
+  iat: number,
+  jti: string,
+  user_id: number,
 }
 
 export interface TokenJWT {
   access: string,
   refresh: string,
-  access_token_lifetime: number,
-  refresh_token_lifetime: number,
 }
 
 export interface UserLogin {

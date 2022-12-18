@@ -1,4 +1,8 @@
+import { Router } from '@angular/router';
+import { CourseInterface } from './../../../shared/interfaces/course.interface';
+import { CourseApiService } from './../../../shared/services/course-api.service';
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-courses',
@@ -7,9 +11,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CoursesComponent implements OnInit {
 
-  constructor() { }
+  public courseList: Observable<CourseInterface[]> = this.courseApi.getListCourse();
+
+  constructor(
+    private courseApi: CourseApiService,
+    private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  public goToCourse(courseId: number) {
+    this.router.navigate(['/','student', 'course', courseId]);
   }
 
 }
