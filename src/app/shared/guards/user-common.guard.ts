@@ -1,16 +1,16 @@
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree, CanLoad, Route, UrlSegment } from '@angular/router';
+import { CanLoad, Route, UrlSegment, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoggedInGuard implements CanLoad {
+export class UserCommonGuard implements CanLoad {
 
-  constructor(private auth: AuthService) {}
+  constructor(private authService: AuthService) {}
   canLoad(route: Route, segments: UrlSegment[]): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    return this.auth.isLoggedIn() ? false : true;
+    return this.authService.isLoggedIn() ? true : false;
   }
 
 }

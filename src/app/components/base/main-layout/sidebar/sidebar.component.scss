@@ -32,7 +32,9 @@ a {
     &-name {
       padding-top: 12px;
       cursor: pointer;
-      p {
+      a {
+        display: block;
+        color: #000;
         margin: 0;
         font-size: 16px;
         text-align: center;

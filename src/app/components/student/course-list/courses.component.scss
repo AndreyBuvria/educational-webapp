@@ -13,6 +13,13 @@
   }
 }
 
+.selected-link {
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 .course-content {
   display: flex;
   flex-wrap: wrap;

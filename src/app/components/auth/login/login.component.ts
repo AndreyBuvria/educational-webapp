@@ -1,8 +1,8 @@
-import { UserApiService } from './../../../../shared/services/user-api.service';
+import { UserApiService } from '../../../shared/services/user-api.service';
 import { CookieService } from 'ngx-cookie-service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { TokenJWT, User } from './../../../../shared/interfaces/user.interface';
-import { AuthService } from './../../../../shared/services/auth.service';
+import { TokenJWT, User } from '../../../shared/interfaces/user.interface';
+import { AuthService } from '../../../shared/services/auth.service';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';

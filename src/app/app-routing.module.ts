@@ -1,3 +1,4 @@
+import { UserCommonGuard } from './shared/guards/user-common.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { WelcomeComponent } from './components/base/welcome/welcome.component';
@@ -12,9 +13,15 @@ const routes: Routes = [
   },
   {
     path: 'auth',
-    canActivate: [LoggedInGuard],
+    canLoad: [LoggedInGuard],
     loadChildren: () =>
-      import('./components/base/auth/auth.module').then((mod) => mod.AuthModule),
+      import('./components/auth/auth.module').then((mod) => mod.AuthModule),
+  },
+  {
+    path: 'user',
+    canLoad: [UserCommonGuard],
+    loadChildren: () =>
+      import('./components/user-common/user-common.module').then((mod) => mod.UserCommonModule),
   },
   {
     path: 'student',
@@ -40,6 +47,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [AuthGuard, LoggedInGuard]
+  providers: [AuthGuard, LoggedInGuard, UserCommonGuard]
 })
 export class AppRoutingModule { }

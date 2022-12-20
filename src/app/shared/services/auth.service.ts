@@ -31,12 +31,12 @@ export class AuthService {
   }
 
   public verifyUserRoleByToken(accessToken: string): Observable<any> {
-    return this.http.post(environment.API_URL + 'role/verify/', { token: accessToken});
+    return this.http.post(environment.API_URL + 'role/verify/', { access: accessToken});
   }
 
   public removeToken() {
-    this.cookie.delete('token_refresh', '/');
-    this.cookie.delete('token_access', '/');
+    if (this.cookie.check('token_access')) this.cookie.delete('token_access', '/');
+    if (this.cookie.check('token_refresh')) this.cookie.delete('token_refresh', '/');
   }
 
   public parseJWTToken(token: string): TokenBody {
@@ -71,13 +71,15 @@ export class AuthService {
     return this.cookie.check('token_access');
   }
 
-  public isLoggedIn() {
-    return this.cookie.check('token_refresh') && localStorage.getItem('usr');
+  public isLoggedIn(): boolean {
+    const isLogged = Boolean(this.cookie.check('token_refresh') && localStorage.getItem('usr'));
+    if (!isLogged) this.onLogout();
+    return isLogged;
   }
 
   public onLogout() {
     this.removeToken();
-    localStorage.removeItem('usr');
-    this.router.navigate(['/', 'auth']);
+    if (localStorage.getItem('usr')) localStorage.removeItem('usr');
+   //this.router.navigate(['/', 'auth']);
   }
 }

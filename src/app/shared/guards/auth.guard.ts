@@ -5,14 +5,14 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Injectable } from '@angular/core';
 import { Router, UrlTree, CanLoad, Route, UrlSegment } from '@angular/router';
-import { map, Observable, switchMap, catchError, throwError } from 'rxjs';
+import { map, Observable, switchMap, catchError, throwError, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanLoad {
 
-  constructor(private cookie: CookieService, private auth: AuthService, private userService: UserApiService, private router: Router) {}
+  constructor(private cookie: CookieService, private auth: AuthService, private router: Router) {}
 
   canLoad(route: Route, segments: UrlSegment[]): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
     //const path = route.routeConfig!.path;
@@ -35,7 +35,6 @@ export class AuthGuard implements CanLoad {
         map((user: { role: UserType }) => user.role.toUpperCase() == path.toUpperCase()),
         catchError((requestError: HttpErrorResponse) => {
           if (accessToken.length === 0) {
-            console.log('im here')
             const refreshTypeToken = this.cookie.get('token_refresh');
             return this.auth.refreshToken(refreshTypeToken)
               .pipe(
@@ -46,7 +45,8 @@ export class AuthGuard implements CanLoad {
                 })
               )
           } else {
-            return throwError(() => new Error(requestError.message));
+            console.log(new Error(requestError.message));
+            return of(false)
           }
         })
       )
