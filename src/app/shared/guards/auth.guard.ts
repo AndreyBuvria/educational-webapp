@@ -1,6 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { User, UserType } from './../interfaces/user.interface';
-import { UserApiService } from './../services/user-api.service';
+import { UserType } from './../interfaces/user.interface';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Injectable } from '@angular/core';

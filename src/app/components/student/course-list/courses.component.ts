@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 })
 export class CoursesComponent implements OnInit {
 
-  public courseList: Observable<CourseInterface[]> = this.courseApi.getListCourse();
+  public courseList: Observable<CourseInterface[]> = this.courseApi.getCourseList();
 
   constructor(
     private courseApi: CourseApiService,

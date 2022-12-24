@@ -1,1 +1,50 @@
-<p>course works!</p>
+<div class="wrapper">
+  <mat-tab-group>
+    <mat-tab label="Course">
+      <cdk-accordion *ngIf="tasks | async as tasks" class="task">
+        <cdk-accordion-item
+          *ngFor="let task of tasks; let index = index;"
+          #accordionItem="cdkAccordionItem"
+          class="task-item"
+          role="button"
+          tabindex="0"
+          [attr.id]="'task-header-' + index"
+          [attr.aria-expanded]="accordionItem.expanded"
+          [attr.aria-controls]="'task-body-' + index">
+          <div class="task-item-header" (click)="accordionItem.toggle()">
+            {{ task.name }}
+            <span class="task-item-hint">
+              Click to {{ accordionItem.expanded ? 'close' : 'open' }}
+            </span>
+          </div>
+          <div
+            class="task-item-body"
+            role="region"
+            [style.display]="accordionItem.expanded ? '' : 'none'"
+            [attr.id]="'task-body-' + index"
+            [attr.aria-labelledby]="'task-header-' + index">
+            <div class="task-item-body-b">
+              <div class="task-item-body-start">
+                <h3>{{ task.name }}</h3>
+                <p>{{ task.description }}</p>
+              </div>
+              <div class="task-item-body-end">
+                <div class="task-item-manager">
+                  <h3 class="task-item-manager-h">Upload your task</h3>
+                  <form action="">
+                    <mat-form-field appearance="fill" class="form-control">
+                      <mat-label>Upload your file</mat-label>
+                      <input matInput placeholder="Upload your file" formControlName="username">
+                      <mat-error *ngIf="false">Incorrect data</mat-error>
+                    </mat-form-field>
+                    <button type="submit" class="btn-sumbit" mat-raised-button color="primary">Submit</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </cdk-accordion-item>
+      </cdk-accordion>
+    </mat-tab>
+  </mat-tab-group>
+</div>

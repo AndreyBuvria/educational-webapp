@@ -1,3 +1,4 @@
+import { TruncatePipe } from './../../shared/pipes/truncate.pipe';
 import { MaterialModule } from 'src/app/shared/modules/material.module';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -9,7 +10,8 @@ import { MainLayoutComponent } from '../base/main-layout/main-layout.component';
 @NgModule({
   declarations: [
     CoursesComponent,
-    CourseComponent
+    CourseComponent,
+    TruncatePipe
   ],
   imports: [
     CommonModule,

@@ -80,6 +80,5 @@ export class AuthService {
   public onLogout() {
     this.removeToken();
     if (localStorage.getItem('usr')) localStorage.removeItem('usr');
-   //this.router.navigate(['/', 'auth']);
   }
 }
