@@ -1,1 +1,59 @@
-<p>about works!</p>
+<div class="user-wrap">
+  <div
+    *ngIf="user | async as user"
+    class="user-profile">
+    <div class="user-profile-header">
+      <div class="profile-picture">
+        <img src="https://avatars.githubusercontent.com/u/94412544?v=4" alt="Profile picture">
+      </div>
+      <h4>{{ user.username }}</h4>
+    </div>
+    <div class="user-profile-fields">
+      <div class="user-profile-field">
+        <p class="user-profile-field-key">User ID</p>
+        <p class="user-profile-field-value">{{ user.id }}</p>
+      </div>
+
+      <div class="user-profile-field">
+        <p class="user-profile-field-key">First name</p>
+        <p class="user-profile-field-value">{{ user.firstname }}</p>
+      </div>
+
+      <div class="user-profile-field">
+        <p class="user-profile-field-key">Last name</p>
+        <p class="user-profile-field-value">{{ user.lastname }}</p>
+      </div>
+
+      <div class="user-profile-field">
+        <p class="user-profile-field-key">Username</p>
+        <p class="user-profile-field-value">{{ user.username }}</p>
+      </div>
+
+      <div class="user-profile-field">
+        <p class="user-profile-field-key">Email</p>
+        <p class="user-profile-field-value">{{ user.email }}</p>
+      </div>
+
+      <div class="user-profile-field">
+        <p class="user-profile-field-key">Role</p>
+        <p class="user-profile-field-value">{{ user.role }}</p>
+      </div>
+
+      <div class="user-profile-field">
+        <p class="user-profile-field-key">About</p>
+        <p class="user-profile-field-value">{{ user.about }}</p>
+      </div>
+
+      <div class="user-profile-field">
+        <p class="user-profile-field-key">Last Activity</p>
+        <p class="user-profile-field-value">{{ (user.data_joined | json) || "Recently"}}</p>
+      </div>
+
+      <div class="user-profile-field">
+        <p class="user-profile-field-key">Timecreated</p>
+        <p class="user-profile-field-value">{{ user.timecreate | date }}</p>
+      </div>
+
+    </div>
+  </div>
+</div>

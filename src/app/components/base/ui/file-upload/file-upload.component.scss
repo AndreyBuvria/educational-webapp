@@ -1,0 +1,56 @@
+.file-uploader {
+  margin-bottom: 16px;
+}
+
+.file-input {
+  display: none;
+}
+
+.file-label {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 8px 0;
+  color: #2d63c8;
+  background-color: #fff;
+  border: 1px solid #e9e8e8;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.5s ease;
+
+  &:hover {
+    opacity: 0.95;
+    background-color: #f1f1f1;
+  }
+}
+
+.file-list {
+  margin-top: 5px;
+}
+
+.file-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: 1fr;
+  align-items: center;
+  &-name {
+    justify-self: self-start;
+    overflow-x: hidden;
+    max-width: 240px;
+    word-break: break-all;
+    color: #2d63c8;
+    font-size: 14px;
+  }
+  &-remove-btn {
+    width: 24px;
+    height: 24px;
+    margin-left: 4px;
+    cursor: pointer;
+    justify-self: self-end;
+  }
+}
+
+.file-field-info {
+  @extend .file-item-name;
+  color: #000;
+}

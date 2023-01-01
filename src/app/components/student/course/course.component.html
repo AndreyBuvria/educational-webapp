@@ -1,9 +1,9 @@
 <div class="wrapper">
   <mat-tab-group>
     <mat-tab label="Course">
-      <cdk-accordion *ngIf="tasks | async as tasks" class="task">
+      <cdk-accordion *ngIf="taskList" class="task">
         <cdk-accordion-item
-          *ngFor="let task of tasks; let index = index;"
+          *ngFor="let task of taskList; let index = index;"
           #accordionItem="cdkAccordionItem"
           class="task-item"
           role="button"
@@ -29,17 +29,14 @@
                 <p>{{ task.description }}</p>
               </div>
               <div class="task-item-body-end">
-                <div class="task-item-manager">
-                  <h3 class="task-item-manager-h">Upload your task</h3>
-                  <form action="">
-                    <mat-form-field appearance="fill" class="form-control">
-                      <mat-label>Upload your file</mat-label>
-                      <input matInput placeholder="Upload your file" formControlName="username">
-                      <mat-error *ngIf="false">Incorrect data</mat-error>
-                    </mat-form-field>
+                <form [formGroup]="form" (submit)="onSubmit(task.id)">
+                  <div
+                    class="task-item-manager">
+                    <h3 class="task-item-manager-h">Upload your task</h3>
+                    <app-file-uploader [formControlName]="prefix + task.id"></app-file-uploader>
                     <button type="submit" class="btn-sumbit" mat-raised-button color="primary">Submit</button>
-                  </form>
                 </div>
+                </form>
               </div>
             </div>
           </div>

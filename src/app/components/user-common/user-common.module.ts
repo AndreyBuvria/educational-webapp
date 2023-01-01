@@ -8,7 +8,7 @@ import { MainLayoutComponent } from '../base/main-layout/main-layout.component';
 
 @NgModule({
   declarations: [
-    AboutComponent
+    AboutComponent,
   ],
   imports: [
     CommonModule,

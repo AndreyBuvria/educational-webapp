@@ -1,0 +1,24 @@
+<div class="file-uploader">
+  <label class="file-label">
+    <input
+      type="file"
+      class="file-input"
+      placeholder="Upload your file"
+      multiple>
+    <span>Add task</span>
+  </label>
+  <div
+    class="file-list">
+    <p *ngIf="fileList.length===0" class="file-field-info">You have not uploaded yet</p>
+      <div
+        class="file-item"
+        *ngFor="let file of fileList; let i = index;">
+        <p class="file-item-name">{{ file.name }}</p>
+        <div
+          class="file-item-remove-btn"
+          (click)="onRemoveFile(i)">
+          <mat-icon>clear</mat-icon>
+        </div>
+      </div>
+  </div>
+</div>

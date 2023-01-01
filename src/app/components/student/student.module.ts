@@ -6,16 +6,20 @@ import { CommonModule } from '@angular/common';
 import { CoursesComponent } from './course-list/courses.component';
 import { CourseComponent } from './course/course.component';
 import { MainLayoutComponent } from '../base/main-layout/main-layout.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FileUploadComponent } from '../base/ui/file-upload/file-upload.component';
 
 @NgModule({
   declarations: [
     CoursesComponent,
     CourseComponent,
-    TruncatePipe
+    FileUploadComponent,
+    TruncatePipe,
   ],
   imports: [
     CommonModule,
     MaterialModule,
+    ReactiveFormsModule,
     RouterModule.forChild([
       {
         path: '',

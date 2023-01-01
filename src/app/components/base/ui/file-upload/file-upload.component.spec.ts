@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { JoinModalComponent } from './join-modal.component';
+import { FileUploadComponent } from './file-upload.component';
 
-describe('JoinModalComponent', () => {
-  let component: JoinModalComponent;
-  let fixture: ComponentFixture<JoinModalComponent>;
+describe('FileUploadComponent', () => {
+  let component: FileUploadComponent;
+  let fixture: ComponentFixture<FileUploadComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ JoinModalComponent ]
+      declarations: [ FileUploadComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(JoinModalComponent);
+    fixture = TestBed.createComponent(FileUploadComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

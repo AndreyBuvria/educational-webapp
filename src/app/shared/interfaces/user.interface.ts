@@ -13,11 +13,12 @@ export interface User {
   role: UserType,
   about: string,
   password: string,
-  data_joined: string | null,
-  timecreate: string,
+  data_joined: Date | null,
+  timecreate: Date,
   is_superuser: boolean,
   img?: string
 }
+
 export interface UserSimple {
   username: string,
   role: UserType,

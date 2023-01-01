@@ -31,7 +31,7 @@ export class CourseApiService {
 
   /* Task */
   public getTaskListByCourseId(courseID: number): Observable<TaskInterface[]> {
-    return this.http.get<TaskInterface[]>(`${environment.API_URL}task/course/${courseID}/`)
+    return this.http.get<TaskInterface[]>(`${environment.API_URL}course/${courseID}/tasks/`)
   }
   public getTaskList(): Observable<TaskInterface[]> {
     return this.http.get<TaskInterface[]>(`${environment.API_URL}task/`);
