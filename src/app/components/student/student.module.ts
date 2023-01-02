@@ -8,6 +8,7 @@ import { CourseComponent } from './course/course.component';
 import { MainLayoutComponent } from '../base/main-layout/main-layout.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FileUploadComponent } from '../base/ui/file-upload/file-upload.component';
+import { TaskComponent } from './course/task/task.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { FileUploadComponent } from '../base/ui/file-upload/file-upload.componen
     CourseComponent,
     FileUploadComponent,
     TruncatePipe,
+    TaskComponent,
   ],
   imports: [
     CommonModule,

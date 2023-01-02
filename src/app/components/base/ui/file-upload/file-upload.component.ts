@@ -26,10 +26,9 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor {
       this.fileList.push(file);
       this.onChange(this.fileList);
     }
-    console.log(this.fileList);
   }
 
-  constructor(private fileHost: ElementRef<HTMLInputElement> ) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
