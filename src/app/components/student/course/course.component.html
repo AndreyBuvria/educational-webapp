@@ -1,8 +1,9 @@
 <div class="wrapper">
   <mat-tab-group>
     <mat-tab label="Course">
-      <cdk-accordion *ngIf="taskList | async as tasks" class="task">
-        <ng-container *ngFor="let task of tasks; let i = index;">
+      <app-filter-bar (sortType)="onApplySortType($event)"></app-filter-bar>
+      <cdk-accordion *ngIf="taskList | async as tasks">
+        <ng-container *ngFor="let task of tasks | sort:this.sortTypeValue; let i = index;">
           <app-task [task]="task" [taskIndex]="i"></app-task>
         </ng-container>
       </cdk-accordion>

@@ -12,6 +12,6 @@ export interface TaskInterface {
   related_course: CourseInterface['id'],
   name: string,
   description: string,
-  expires: string | null,
-  timecreated: string
+  expires: Date | null,
+  timecreated: Date
 }

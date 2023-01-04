@@ -9,6 +9,8 @@ import { MainLayoutComponent } from '../base/main-layout/main-layout.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FileUploadComponent } from '../base/ui/file-upload/file-upload.component';
 import { TaskComponent } from './course/task/task.component';
+import { FilterBarComponent } from '../base/ui/filter-bar/filter-bar.component';
+import { SortPipe } from 'src/app/shared/pipes/sort.pipe';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { TaskComponent } from './course/task/task.component';
     CourseComponent,
     FileUploadComponent,
     TruncatePipe,
+    SortPipe,
     TaskComponent,
+    FilterBarComponent
   ],
   imports: [
     CommonModule,

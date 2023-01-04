@@ -12,6 +12,8 @@ export class TaskComponent implements OnInit {
   @Input() public task!: TaskInterface;
   @Input() public taskIndex!: number;
 
+  public isAvailableToPass!: boolean;
+
   public form: FormGroup = new FormGroup({
     uploader: new FormControl()
   });
@@ -19,10 +21,21 @@ export class TaskComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.isAvailableToPass = this.checkExpirationOfTask();
+  }
+
+  private checkExpirationOfTask() {
+    if (this.task.expires) {
+      const currentTime = new Date();
+      const taskExpires = new Date(this.task.expires);
+
+      return currentTime < taskExpires;
+    }
+    return false;
   }
 
   public onSubmit() {
-    console.log(this.form.get('uploader')?.value);
+    if (!this.isAvailableToPass) return;
   }
 
 }

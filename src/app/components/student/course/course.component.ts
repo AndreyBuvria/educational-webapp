@@ -1,9 +1,9 @@
-import { FormArray, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TaskInterface } from './../../../shared/interfaces/course.interface';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CourseApiService } from 'src/app/shared/services/course-api.service';
-import { Observable, Subject, switchMap, takeUntil } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
+import { FilterSortValues } from '../../base/ui/filter-bar/filter-bar';
 
 @Component({
   selector: 'app-course',
@@ -11,19 +11,27 @@ import { Observable, Subject, switchMap, takeUntil } from 'rxjs';
   styleUrls: ['./course.component.scss'],
 })
 export class CourseComponent implements OnInit, OnDestroy {
-
-  public taskList: Observable<TaskInterface[]> = this.route.params
-    .pipe(
-      switchMap((params: Params) => this.courseService.getTaskListByCourseId(params['id']))
-  );
-  public prefix: string = 'task-';
+  public taskList!: Observable<TaskInterface[]>;
+  public sortTypeValue: FilterSortValues = FilterSortValues.Default;
 
   constructor(private route: ActivatedRoute, private courseService: CourseApiService) { }
 
   ngOnInit(): void {
+    this.initTaskList();
   }
 
   ngOnDestroy(): void {
+  }
+
+  private initTaskList() {
+    this.taskList = this.route.params
+      .pipe(
+        switchMap((params: Params) => this.courseService.getTaskListByCourseId(params['id']))
+    );
+  }
+
+  public onApplySortType(e: FilterSortValues) {
+    this.sortTypeValue = e;
   }
 
 }

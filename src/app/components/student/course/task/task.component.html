@@ -20,16 +20,24 @@
     [attr.aria-labelledby]="'task-header-' + taskIndex">
     <div class="task-item-body-b">
       <div class="task-item-body-start">
-        <h3>{{ task.name }}</h3>
-        <p>{{ task.description }}</p>
+        <div class="task-item-problem">
+          <h3>{{ task.name }}</h3>
+          <p>{{ task.description }}</p>
+        </div>
+        <div class="task-item-deadline">
+          <p *ngIf="isAvailableToPass; else taskExpired;" class="task-item-time">The assignment is available until {{ task.expires | date:'medium' }}</p>
+          <ng-template #taskExpired>
+            <p class="task-item-time">The assignment expired</p>
+          </ng-template>
+        </div>
       </div>
       <div class="task-item-body-end">
         <form [formGroup]="form" (submit)="onSubmit()">
           <div
             class="task-item-manager">
             <h3 class="task-item-manager-h">Upload your task</h3>
-            <app-file-uploader formControlName="uploader"></app-file-uploader>
-            <button type="submit" class="btn-sumbit" mat-raised-button color="primary">Submit</button>
+            <app-file-uploader [active]="isAvailableToPass" formControlName="uploader"></app-file-uploader>
+            <button type="submit" class="btn-sumbit" [disabled]="!isAvailableToPass" mat-raised-button color="primary">Submit</button>
         </div>
         </form>
       </div>

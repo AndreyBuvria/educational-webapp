@@ -11,6 +11,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatCardModule} from '@angular/material/card';
 import {MatTabsModule} from '@angular/material/tabs';
 import {CdkAccordionModule} from '@angular/cdk/accordion';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 const MATERIALS = [
   MatSidenavModule,
@@ -23,7 +24,8 @@ const MATERIALS = [
   MatSnackBarModule,
   MatCardModule,
   MatTabsModule,
-  CdkAccordionModule
+  CdkAccordionModule,
+  MatButtonToggleModule
 ];
 
 @NgModule({
