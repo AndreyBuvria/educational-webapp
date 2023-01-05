@@ -1,9 +1,9 @@
+import { AuthApiService } from './../../../shared/services/auth-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { checkPasswordMatch } from 'src/app/shared/validators/password.validator';
 import { Subject, takeUntil } from 'rxjs';
-import { AuthService } from 'src/app/shared/services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -31,8 +31,9 @@ export class SignupComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private auth: AuthService,
-    private snackBar: MatSnackBar) { }
+    private authApiService: AuthApiService,
+    private snackBar: MatSnackBar
+  ) { }
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -70,10 +71,10 @@ export class SignupComponent implements OnInit {
 
     console.log(data);
 
-    this.auth.signup(data)
+    this.authApiService.signup(data)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (response) => {
+        next: (response: any) => {
           this.commentNgForm.resetForm();
           console.log(response);
           this.router.navigate(['../login'], { relativeTo: this.route });

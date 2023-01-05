@@ -1,37 +1,13 @@
-import { environment } from './../../../environments/environment';
 import { CookieService } from 'ngx-cookie-service';
-import { UserLogin, UserSignup, TokenBody } from './../interfaces/user.interface';
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { TokenBody, TokenJWT } from '../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private http: HttpClient, private cookie: CookieService, private router: Router) {
-  }
-
-  public signup(data: UserSignup): Observable<any> {
-    return this.http.post(environment.API_URL + 'signup/', data);
-  }
-
-  public obtainToken(data: UserLogin): Observable<any> {
-    return this.http.post(environment.API_URL + 'token/', data);
-  }
-
-  public refreshToken(refreshToken: string): Observable<any> {
-    return this.http.post(environment.API_URL + 'token/refresh/', { refresh: refreshToken });
-  }
-
-  public verifyToken(token: string): Observable<any> {
-    return this.http.post(environment.API_URL + 'token/verify/', { token: token});
-  }
-
-  public verifyUserRoleByToken(accessToken: string): Observable<any> {
-    return this.http.post(environment.API_URL + 'role/verify/', { access: accessToken});
+  constructor(private cookie: CookieService) {
   }
 
   public removeToken() {
@@ -47,6 +23,18 @@ export class AuthService {
     }).join(''));
 
     return JSON.parse(jsonPayload);
+  }
+
+  public setTokenCookie(token: TokenJWT) {
+    const cookieExists: boolean = this.accessTokenExists() || this.refreshTokenExists();
+
+    if (cookieExists) {
+      this.cookie.delete('token_access');
+      this.cookie.delete('token_refresh');
+    }
+
+    this.setAccessToken(token.access);
+    this.setRefreshToken(token.refresh);
   }
 
   public setAccessToken(token: string) {

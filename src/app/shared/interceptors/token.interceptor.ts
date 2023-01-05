@@ -1,3 +1,4 @@
+import { AuthApiService } from './../services/auth-api.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Injectable } from '@angular/core';
@@ -16,7 +17,11 @@ export class TokenInterceptor implements HttpInterceptor {
   private refreshTokenInProgress = false;
   private refreshTokenSubject = new BehaviorSubject(null);
 
-  constructor(private cookie: CookieService, private auth: AuthService) {}
+  constructor(
+    private cookie: CookieService,
+    private authService: AuthService,
+    private autApihService: AuthApiService
+  ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(this.addTokenToReq(req)).pipe(
@@ -34,10 +39,10 @@ export class TokenInterceptor implements HttpInterceptor {
             this.refreshTokenInProgress = true;
             this.refreshTokenSubject.next(null);
 
-            return this.auth.refreshToken(refreshToken).pipe(
+            return this.autApihService.refreshToken(refreshToken).pipe(
               switchMap((token) => {
                 this.refreshTokenSubject.next(token.access);
-                this.auth.setAccessToken(token.access);
+                this.authService.setAccessToken(token.access);
                 return next.handle(this.addTokenToReq(req));
               }),
               finalize(() => { this.refreshTokenInProgress = false })

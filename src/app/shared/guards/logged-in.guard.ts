@@ -8,9 +8,9 @@ import { Observable } from 'rxjs';
 })
 export class LoggedInGuard implements CanLoad {
 
-  constructor(private auth: AuthService) {}
+  constructor(private authService: AuthService) {}
   canLoad(route: Route, segments: UrlSegment[]): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    return this.auth.isLoggedIn() ? false : true;
+    return this.authService.isLoggedIn() ? false : true;
   }
 
 }

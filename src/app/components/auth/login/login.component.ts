@@ -1,3 +1,4 @@
+import { AuthApiService } from './../../../shared/services/auth-api.service';
 import { UserApiService } from '../../../shared/services/user-api.service';
 import { CookieService } from 'ngx-cookie-service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -29,10 +30,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private auth: AuthService,
+    private authService: AuthService,
+    private authApiService: AuthApiService,
     private userService: UserApiService,
-    private cookie: CookieService,
-    private snackBar: MatSnackBar,) { }
+    private snackBar: MatSnackBar,
+  ) { }
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -45,18 +47,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.router.navigate(['../signup'], { relativeTo: this.route });
   }
 
-  public setTokenCookie(token: TokenJWT) {
-    const cookieExists: boolean = this.auth.accessTokenExists() || this.auth.refreshTokenExists();
-
-    if (cookieExists) {
-      this.cookie.delete('token_access');
-      this.cookie.delete('token_refresh');
-    }
-
-    this.auth.setAccessToken(token.access);
-    this.auth.setRefreshToken(token.refresh);
-  }
-
   public onSubmit() {
     if (this.form.invalid) return;
 
@@ -67,11 +57,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       password: this.form.get('password')!.value
     };
 
-    this.auth.obtainToken(data)
+    this.authApiService.obtainToken(data)
       .pipe(takeUntil(this.destroy$))
       .pipe(switchMap((token: TokenJWT) => {
-        this.setTokenCookie(token);
-        const parsedToken = this.auth.parseJWTToken(token.refresh);
+        this.authService.setTokenCookie(token);
+        const parsedToken = this.authService.parseJWTToken(token.refresh);
         return this.userService.getUser(parsedToken.user_id);
       }))
       .subscribe({

@@ -17,12 +17,12 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private auth: AuthService, private userService: UserApiService, private cookie: CookieService) { }
+  constructor(private authService: AuthService, private userService: UserApiService, private cookie: CookieService) { }
 
   ngOnInit(): void {
-    if (this.auth.isLoggedIn()) {
+    if (this.authService.isLoggedIn()) {
       const refreshToken = this.cookie.get('token_refresh');
-      const userID = this.auth.parseJWTToken(refreshToken).user_id;
+      const userID = this.authService.parseJWTToken(refreshToken).user_id;
 
       this.userService.getUser(userID)
         .pipe(takeUntil(this.destroy$))
