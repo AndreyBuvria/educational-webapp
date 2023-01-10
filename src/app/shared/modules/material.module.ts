@@ -12,6 +12,8 @@ import {MatCardModule} from '@angular/material/card';
 import {MatTabsModule} from '@angular/material/tabs';
 import {CdkAccordionModule} from '@angular/cdk/accordion';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 const MATERIALS = [
   MatSidenavModule,
@@ -25,7 +27,9 @@ const MATERIALS = [
   MatCardModule,
   MatTabsModule,
   CdkAccordionModule,
-  MatButtonToggleModule
+  MatButtonToggleModule,
+  MatDialogModule,
+  MatAutocompleteModule
 ];
 
 @NgModule({

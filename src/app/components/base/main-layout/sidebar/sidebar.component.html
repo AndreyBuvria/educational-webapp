@@ -7,7 +7,7 @@
         </div>
       </div>
       <div class="profile-name">
-        <a routerLink="/user/about/{{user.username}}">{{ user.username }}</a>
+        <a routerLink="/user/profile/{{user.username}}">{{ user.username }}</a>
       </div>
     </div>
 
@@ -26,13 +26,14 @@
             <a
               mat-list-item
               class="list-item"
+              routerLink="/student/"
               href="#">
               <span>Find course</span>
             </a>
             <a
               mat-list-item
               class="list-item"
-              href="#">
+              (click)="onOpenJoinCourseModal()">
               <span>Join course</span>
             </a>
           </mat-action-list>
