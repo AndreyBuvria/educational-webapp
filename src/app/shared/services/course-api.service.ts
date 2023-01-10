@@ -28,6 +28,9 @@ export class CourseApiService {
   public deleteCourse(courseID: number): Observable<any> {
     return this.http.delete(`${environment.API_URL}course/${courseID}/`);
   }
+  public addUserToCourse(courseKey: string) {
+    return this.http.patch(`${environment.API_URL}course/add_user/`, { key: courseKey });
+  }
 
   /* Task */
   public getTaskListByCourseId(courseID: number): Observable<TaskInterface[]> {
