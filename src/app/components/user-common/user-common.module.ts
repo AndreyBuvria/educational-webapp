@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AboutComponent } from './about/about.component';
+import { AboutComponent } from './profile/about/about.component';
 import { RouterModule } from '@angular/router';
 import { MainLayoutComponent } from '../base/main-layout/main-layout.component';
+import { ProfileComponent } from './profile/profile.component';
 
 
 
 @NgModule({
   declarations: [
     AboutComponent,
+    ProfileComponent,
   ],
   imports: [
     CommonModule,
@@ -19,12 +21,12 @@ import { MainLayoutComponent } from '../base/main-layout/main-layout.component';
         children: [
           {
             path: '',
-            redirectTo: 'about/:name',
+            redirectTo: 'profile/:name',
             pathMatch: 'full',
           },
           {
-            path: 'about/:name',
-            component: AboutComponent,
+            path: 'profile/:name',
+            component: ProfileComponent,
           },
           { path: '**', redirectTo: '/' }
         ]

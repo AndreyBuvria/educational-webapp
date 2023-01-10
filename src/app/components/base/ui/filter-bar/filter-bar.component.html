@@ -9,7 +9,7 @@
         [value]="defaultSortTypeValue"
         (change)="onChange($event)">
         <ng-container *ngFor="let btnValue of sortButtonValues">
-          <mat-button-toggle [value]="btnValue">{{ btnValue | titlecase }}</mat-button-toggle>
+          <mat-button-toggle [value]="btnValue">{{ btnValue }}</mat-button-toggle>
         </ng-container>
       </mat-button-toggle-group>
     </div>

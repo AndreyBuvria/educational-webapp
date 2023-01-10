@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
-import { FilterSortValues } from './filter-bar';
+import { FilterSortValues } from './enums/filter-bar.enum';
 
 @Component({
   selector: 'app-filter-bar',

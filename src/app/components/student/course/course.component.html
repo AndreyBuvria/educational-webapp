@@ -1,5 +1,5 @@
 <div class="wrapper">
-  <mat-tab-group>
+  <mat-tab-group *ngIf="course | async as course">
     <mat-tab label="Course">
       <app-filter-bar (sortType)="onApplySortType($event)"></app-filter-bar>
       <cdk-accordion *ngIf="taskList | async as tasks">
@@ -7,6 +7,9 @@
           <app-task [task]="task" [taskIndex]="i"></app-task>
         </ng-container>
       </cdk-accordion>
+    </mat-tab>
+    <mat-tab label="Information">
+      <p class="course-key">Course key: {{ course.key }}</p>
     </mat-tab>
   </mat-tab-group>
 </div>

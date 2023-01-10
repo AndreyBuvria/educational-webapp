@@ -13,7 +13,7 @@
       <mat-card>
         <mat-card-header>
           <mat-card-title class="selected-link" routerLink="/student/course/{{course.id}}">{{ course.name }}</mat-card-title>
-          <mat-card-subtitle class="selected-link" routerLink="/user/about/{{course.author}}"> {{ course.author }} </mat-card-subtitle>
+          <mat-card-subtitle class="selected-link" routerLink="/user/profile/{{course.author}}"> {{ course.author }} </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
           {{ course.description | truncate:120 }}

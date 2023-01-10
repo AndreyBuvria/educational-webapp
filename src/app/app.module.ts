@@ -1,3 +1,4 @@
+import { ModalsBundleModule } from './components/base/modals/modals.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -21,13 +22,6 @@ import { SidebarComponent } from "./components/base/main-layout/sidebar/sidebar.
         WelcomeComponent,
         SidebarComponent,
     ],
-    providers: [CookieService,
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: TokenInterceptor,
-            multi: true
-        }],
-    bootstrap: [AppComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,
@@ -35,6 +29,15 @@ import { SidebarComponent } from "./components/base/main-layout/sidebar/sidebar.
         FlexLayoutModule,
         BrowserAnimationsModule,
         HttpClientModule,
-    ]
+        ModalsBundleModule
+    ],
+    providers: [CookieService,
+      {
+          provide: HTTP_INTERCEPTORS,
+          useClass: TokenInterceptor,
+          multi: true
+      }
+    ],
+    bootstrap: [AppComponent],
 })
 export class AppModule { }

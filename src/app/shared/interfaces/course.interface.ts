@@ -1,14 +1,14 @@
 export interface CourseInterface {
-  id: number,
+  readonly key: string,
+  readonly id: number,
   author: string,
   name: string,
-  //members: number[],
   description: string,
   timecreated: string,
 }
 
 export interface TaskInterface {
-  id: number,
+  readonly id: number,
   related_course: CourseInterface['id'],
   name: string,
   description: string,
