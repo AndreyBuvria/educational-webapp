@@ -1,20 +1,19 @@
 <div class="modal">
-  <h2 mat-dialog-title>Join a course</h2>
+  <h2 mat-dialog-title>Find a course</h2>
   <mat-dialog-content>
     <div class="modal-search">
-      <form [formGroup]="form" (submit)="onSubmit()">
+      <form>
         <mat-form-field class="modal-form-control">
-          <mat-label>Enter a course code</mat-label>
+          <mat-label>Enter a course name</mat-label>
           <input
             #input
             formControlName="searchField"
             matInput
             type="search"
-            maxlength="{{ validatorsLength.searchFieldMax }}"
-            placeholder="Code"
-            [formControl]="searchField">
-          <mat-hint align="end">{{ hintLabel }}</mat-hint>
-          <mat-error *ngIf="form.get('searchField')?.invalid">{{ errorMessage }}</mat-error>
+            placeholder="Name"
+            class="search-input">
+          <mat-hint align="end">asd</mat-hint>
+          <mat-error ></mat-error>
         </mat-form-field>
         <div class="modal-btns" fxLayoutAlign="space-between center" fxLayoutGap="10px">
           <button
@@ -28,9 +27,8 @@
             type="submit"
             class="btn-submit"
             color="primary"
-            fxFlex="1 1 100%">Join</button>
+            fxFlex="1 1 100%">Find</button>
         </div>
-        <p *ngIf="invalidCourseKeyAppearance" class="error-text">You entered invalid course key. Try again.</p>
       </form>
     </div>
   </mat-dialog-content>

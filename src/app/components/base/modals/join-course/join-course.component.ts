@@ -1,3 +1,4 @@
+import { JoinCourseResponse } from './interfaces/join-course.interface';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CourseApiService } from 'src/app/shared/services/course-api.service';
@@ -5,6 +6,7 @@ import { CourseInterface } from 'src/app/shared/interfaces/course.interface';
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { debounceTime, Observable, Subject, takeUntil } from 'rxjs';
+import { JoinCourseStatusResponse } from './enums/join-response.enum';
 
 @Component({
   selector: 'app-join-course',
@@ -17,7 +19,7 @@ export class JoinCourseComponent implements OnInit {
   public validatorsLength: { searchFieldMax: number } = {
     searchFieldMax: 6,
   };
-  public submitted: boolean = false;
+  public status!: JoinCourseStatusResponse;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -44,29 +46,36 @@ export class JoinCourseComponent implements OnInit {
   public onSubmit() {
     if (this.form.invalid) return;
 
-    this.submitted = true;
-
     const courseKey = this.form.value['searchField'];
     this.courseApiService.addUserToCourse(courseKey)
       .pipe(takeUntil(this.destroy$))
       .pipe(debounceTime(1000))
       .subscribe({
-        next: (response: any) => {
-          console.log(response);
+        next: (response: JoinCourseResponse<any>) => {
+          this.status = response.status;
           this.router.navigate(['/', 'student', 'course', response.response.course.id]);
           this.modalRef.close();
-          this.submitted = false;
         },
-        error: (error) => console.log(error)
+        error: (error) => {
+          this.status = JoinCourseStatusResponse.FAILED;
+          console.log(error);
+          this.form.get('searchField')?.setErrors({ incorrect: true });
+        },
       })
 
   }
 
+  public get searchField() {
+    return this.form.get('searchField') as FormControl;
+  }
+  public get invalidCourseKeyAppearance() {
+    return this.searchField.errors?.['incorrect'] && this.status == JoinCourseStatusResponse.FAILED;
+  }
   public get hintLabel() {
     return `${this.form.get('searchField')?.value.length}/${this.validatorsLength.searchFieldMax}`
   }
   public get errorMessage() {
-    const control = this.form.get('searchField');
+    const control = this.searchField;
     if (control?.errors?.['required']) return 'The field cannot be empty';
     else if (control?.errors?.['maxlength']?.['requiredLength']) return `Max length is ${control?.errors?.['maxlength']?.['requiredLength']}`;
     else return '';

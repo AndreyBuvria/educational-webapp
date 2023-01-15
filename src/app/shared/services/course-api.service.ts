@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CourseInterface, TaskInterface } from '../interfaces/course.interface';
 import { Observable, switchMap } from 'rxjs';
+import { JoinCourseResponse } from 'src/app/components/base/modals/join-course/interfaces/join-course.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -28,8 +29,8 @@ export class CourseApiService {
   public deleteCourse(courseID: number): Observable<any> {
     return this.http.delete(`${environment.API_URL}course/${courseID}/`);
   }
-  public addUserToCourse(courseKey: string) {
-    return this.http.patch(`${environment.API_URL}course/add_user/`, { key: courseKey });
+  public addUserToCourse(courseKey: string): Observable<JoinCourseResponse<any>> {
+    return this.http.patch<JoinCourseResponse<any>>(`${environment.API_URL}course/add_user/`, { key: courseKey });
   }
 
   /* Task */

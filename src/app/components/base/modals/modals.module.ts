@@ -4,10 +4,12 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/shared/modules/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { FindCourseComponent } from './find-course/find-course.component';
 
 @NgModule({
   declarations: [
-    JoinCourseComponent
+    JoinCourseComponent,
+    FindCourseComponent
   ],
   imports: [
     CommonModule,
