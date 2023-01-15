@@ -7,7 +7,7 @@
         </div>
       </div>
       <div class="profile-name">
-        <a routerLink="/user/profile/{{user.username}}">{{ user.username }}</a>
+        <a [routerLink]="userRouter + '/profile/' + user.username ">{{ user.username }}</a>
       </div>
     </div>
 
@@ -20,14 +20,13 @@
             <a
               mat-list-item
               class="list-item"
-              routerLink="/student/course">
+              [routerLink]="studentRoute + '/course'">
               <span>My courses</span>
             </a>
             <a
               mat-list-item
               class="list-item"
-              routerLink="/student/"
-              href="#">
+              (click)="onOpenFindCourseModal()">
               <span>Find course</span>
             </a>
             <a
@@ -64,14 +63,14 @@
           <a
             mat-list-item
             class="list-item"
-            routerLink="login">
+            [routerLink]="authRoute + '/login'">
             <span>Login</span>
           </a>
           <a
             mat-list-item
             class="list-item"
-            routerLink="signup">
-            <span>Signup</span>
+            [routerLink]="authRoute + '/signup'">
+            <span>Sign Up</span>
           </a>
         </mat-action-list>
       </ng-template>

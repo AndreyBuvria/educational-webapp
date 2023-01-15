@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { JoinCourseComponent } from '../../modals/join-course/join-course.component';
 import { Subject, takeUntil } from 'rxjs';
+import { AppRoutesEnum } from 'src/app/shared/enums/routes.enum';
+import { FindCourseComponent } from '../../modals/find-course/find-course.component';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -33,6 +35,19 @@ export class SidebarComponent implements OnInit {
     this.router.navigate(['/', 'auth']);
   }
 
+  public onOpenFindCourseModal() {
+    let modalRef = this.modal.open(FindCourseComponent, {
+      width: '650px',
+    });
+
+    modalRef.afterClosed()
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (res) => console.log(res),
+      error: (err) => console.log(err),
+    })
+  }
+
   public onOpenJoinCourseModal() {
     let modalRef = this.modal.open(JoinCourseComponent, {
       width: '400px',
@@ -44,6 +59,19 @@ export class SidebarComponent implements OnInit {
       next: (res) => console.log(res),
       error: (err) => console.log(err),
     })
+  }
+
+  public get studentRoute() {
+    return `/${AppRoutesEnum.Student}`;
+  }
+  public get teacherRoute() {
+    return `/${AppRoutesEnum.Teacher}`;
+  }
+  public get authRoute() {
+    return `/${AppRoutesEnum.Auth}`;
+  }
+  public get userRouter() {
+    return `/${AppRoutesEnum.User}`;
   }
 
 

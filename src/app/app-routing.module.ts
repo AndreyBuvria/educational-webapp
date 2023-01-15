@@ -4,27 +4,28 @@ import { RouterModule, Routes } from '@angular/router';
 import { WelcomeComponent } from './components/base/welcome/welcome.component';
 import { AuthGuard } from './shared/guards/auth.guard';
 import { LoggedInGuard } from './shared/guards/logged-in.guard';
+import { AppRoutesEnum } from './shared/enums/routes.enum';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/welcome', pathMatch: 'full' },
+  { path: '', redirectTo: `/${AppRoutesEnum.Welcome}`, pathMatch: 'full' },
   {
     path: 'welcome',
     component: WelcomeComponent,
   },
   {
-    path: 'auth',
+    path: AppRoutesEnum.Auth,
     canLoad: [LoggedInGuard],
     loadChildren: () =>
       import('./components/auth/auth.module').then((mod) => mod.AuthModule),
   },
   {
-    path: 'user',
+    path: AppRoutesEnum.User,
     canLoad: [UserCommonGuard],
     loadChildren: () =>
       import('./components/user-common/user-common.module').then((mod) => mod.UserCommonModule),
   },
   {
-    path: 'student',
+    path: AppRoutesEnum.Student,
     canLoad: [AuthGuard],
     data: {
       role: 'STUDENT',
@@ -33,7 +34,7 @@ const routes: Routes = [
       import('./components/student/student.module').then((mod) => mod.StudentModule),
   },
   {
-    path: 'teacher',
+    path: AppRoutesEnum.Teacher,
     data: {
       role: 'TEACHER',
     },
@@ -41,7 +42,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./components/teacher/teacher.module').then((mod) => mod.TeacherModule),
   },
-  { path: '**', redirectTo: '/welcome' }
+  { path: '**', redirectTo: `/${AppRoutesEnum.Welcome}` }
 ];
 
 @NgModule({
