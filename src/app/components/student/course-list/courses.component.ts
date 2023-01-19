@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { CourseInterface } from './../../../shared/interfaces/course.interface';
-import { CourseApiService } from './../../../shared/services/course-api.service';
+import { CourseApiService } from '../../../shared/services/api/course-api.service';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -10,8 +10,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./courses.component.scss']
 })
 export class CoursesComponent implements OnInit {
-
-  public courseList: Observable<CourseInterface[]> = this.courseApi.getCourseList();
+  public courseList$: Observable<CourseInterface[]> = this.courseApi.getCourseListForUser();
 
   constructor(
     private courseApi: CourseApiService,

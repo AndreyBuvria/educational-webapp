@@ -1,3 +1,5 @@
+import { MatDialogRef } from "@angular/material/dialog"
+
 export interface CourseInterface {
   readonly key: string,
   readonly id: number,
@@ -15,3 +17,4 @@ export interface TaskInterface {
   expires: Date | null,
   timecreated: Date
 }
+

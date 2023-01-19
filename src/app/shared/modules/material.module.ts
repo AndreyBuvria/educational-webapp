@@ -29,7 +29,7 @@ const MATERIALS = [
   CdkAccordionModule,
   MatButtonToggleModule,
   MatDialogModule,
-  MatAutocompleteModule
+  MatAutocompleteModule,
 ];
 
 @NgModule({

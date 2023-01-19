@@ -2,7 +2,7 @@
   <h2 mat-dialog-title>Find a course</h2>
   <mat-dialog-content>
     <div class="modal-search">
-      <form>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <mat-form-field class="modal-form-control">
           <mat-label>Enter a course name</mat-label>
           <input
@@ -11,11 +11,19 @@
             matInput
             type="search"
             placeholder="Name"
-            class="search-input">
-          <mat-hint align="end">asd</mat-hint>
-          <mat-error ></mat-error>
+            class="search-input"
+            [formControl]="searchField">
+            <mat-error *ngIf="searchField.invalid">{{ errorMessage }}</mat-error>
         </mat-form-field>
-        <div class="modal-btns" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+        <div class="modal-courses">
+
+          <ng-container *ngFor="let course of (courseList$ | async)">
+            <app-course-suggestion
+              [course]="course"
+              (onJoinCourseEmitter)="onJoinCourse($event)"></app-course-suggestion>
+          </ng-container>
+        </div>
+        <div class="modal-btn-group" fxLayoutAlign="space-between center" fxLayoutGap="10px">
           <button
             mat-raised-button
             type="button"
@@ -29,6 +37,7 @@
             color="primary"
             fxFlex="1 1 100%">Find</button>
         </div>
+        <p *ngIf="isUserJoinedToCourse" class="error-text">You already joined to the course.</p>
       </form>
     </div>
   </mat-dialog-content>

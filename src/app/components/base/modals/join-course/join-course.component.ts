@@ -1,7 +1,8 @@
+import { AppRoutesEnum } from 'src/app/shared/enums/routes.enum';
 import { JoinCourseResponse } from './interfaces/join-course.interface';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { CourseApiService } from 'src/app/shared/services/course-api.service';
+import { CourseApiService } from 'src/app/shared/services/api/course-api.service';
 import { CourseInterface } from 'src/app/shared/interfaces/course.interface';
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -53,7 +54,7 @@ export class JoinCourseComponent implements OnInit {
       .subscribe({
         next: (response: JoinCourseResponse<any>) => {
           this.status = response.status;
-          this.router.navigate(['/', 'student', 'course', response.response.course.id]);
+          this.router.navigate(['/', AppRoutesEnum.Student, 'course', response.response.course.id]);
           this.modalRef.close();
         },
         error: (error) => {

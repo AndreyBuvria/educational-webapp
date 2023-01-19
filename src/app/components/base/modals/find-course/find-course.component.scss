@@ -2,7 +2,18 @@
   &-form-control {
     width: 100%;
   }
-  &-btns {
+  &-btn-group {
     padding: 10px 0;
   }
+  &-courses {
+    max-height: 300px;
+    overflow-y: auto;
+  }
 }
+
+.error-text {
+  text-align: center;
+  margin: 0;
+  color: #f44336;
+}
+

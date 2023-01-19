@@ -1,5 +1,5 @@
 <div class="wrapper">
-  <mat-tab-group *ngIf="course | async as course">
+  <mat-tab-group *ngIf="course | async as course; else loading">
     <mat-tab label="Course">
       <app-filter-bar (sortType)="onApplySortType($event)"></app-filter-bar>
       <cdk-accordion *ngIf="taskList | async as tasks">
@@ -11,5 +11,13 @@
     <mat-tab label="Information">
       <p class="course-key">Course key: {{ course.key }}</p>
     </mat-tab>
+    <mat-tab label="Settings">
+     <div class="btn-leave">
+      <button mat-raised-button color="warn" (click)="onLeaveCourse(course.id)">Leave the course</button>
+     </div>
+    </mat-tab>
   </mat-tab-group>
+
+  <ng-template #loading>Loading...</ng-template>
+
 </div>
