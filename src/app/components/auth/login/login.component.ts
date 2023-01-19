@@ -1,13 +1,13 @@
-import { AuthApiService } from './../../../shared/services/auth-api.service';
-import { UserApiService } from '../../../shared/services/user-api.service';
-import { CookieService } from 'ngx-cookie-service';
+import { UserService } from './../../../shared/services/user.service';
+import { AuthApiService } from '../../../shared/services/api/auth-api.service';
+import { UserApiService } from '../../../shared/services/api/user-api.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TokenJWT, User } from '../../../shared/interfaces/user.interface';
 import { AuthService } from '../../../shared/services/auth.service';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, switchMap, takeUntil } from 'rxjs';
+import { Subject, switchMap, takeUntil, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private authService: AuthService,
     private authApiService: AuthApiService,
-    private userService: UserApiService,
+    private userService: UserService,
     private snackBar: MatSnackBar,
   ) { }
 
@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       .pipe(switchMap((token: TokenJWT) => {
         this.authService.setTokenCookie(token);
         const parsedToken = this.authService.parseJWTToken(token.refresh);
-        return this.userService.getUser(parsedToken.user_id);
+        return this.userService.getUser(parsedToken.user_id) as Observable<User>;
       }))
       .subscribe({
         next: (user: User) => {

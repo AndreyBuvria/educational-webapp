@@ -1,4 +1,4 @@
-import { AuthApiService } from './../../../shared/services/auth-api.service';
+import { AuthApiService } from '../../../shared/services/api/auth-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';

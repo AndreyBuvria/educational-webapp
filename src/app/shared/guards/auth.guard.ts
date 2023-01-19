@@ -1,4 +1,4 @@
-import { AuthApiService } from './../services/auth-api.service';
+import { AuthApiService } from '../services/api/auth-api.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserType } from './../interfaces/user.interface';
 import { AuthService } from 'src/app/shared/services/auth.service';

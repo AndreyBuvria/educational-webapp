@@ -1,5 +1,5 @@
-import { User } from './../interfaces/user.interface';
-import { environment } from './../../../environments/environment';
+import { User } from '../../interfaces/user.interface';
+import { environment } from '../../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -15,17 +15,8 @@ export class UserApiService {
     return this.http.get<User[]>(environment.API_URL + 'users/');
   }
 
-  public getUser(userID: number): Observable<User> {
+  public getUser(userID: number | string): Observable<User> {
     return this.http.get<User>(environment.API_URL + 'users/' + userID + '/');
-  }
-
-  public storeUser(user: User) {
-    localStorage.setItem('usr', JSON.stringify(user));
-  }
-
-  public getUserLocalData(): User | null {
-    const usrData = localStorage.getItem('usr');
-    return usrData ? JSON.parse(usrData) : null;
   }
 
 }

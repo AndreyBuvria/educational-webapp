@@ -1,4 +1,4 @@
-import { AuthApiService } from './../services/auth-api.service';
+import { AuthApiService } from '../services/api/auth-api.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Injectable } from '@angular/core';
