@@ -1,0 +1,25 @@
+<div class="form-wrap" fxLayoutAlign="center center">
+  <form [formGroup]="form" #commentNgForm="ngForm" (submit)="onSubmit()">
+    <div class="form" fxLayout="column">
+      <h1 class="h-text">Login</h1>
+      <mat-form-field hintLabel="Max {{validatorsLength.firstname }} characters" appearance="fill" class="form-control">
+        <mat-label>Username</mat-label>
+        <input matInput [maxlength]="validatorsLength.firstname" placeholder="Enter your username" formControlName="username">
+        <mat-hint align="end">{{form.get('username')?.value?.length}}/{{validatorsLength.firstname }}</mat-hint>
+        <mat-error *ngIf="form.get('username')?.errors??['required']">Incorrect data</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="form-control">
+        <mat-label>Enter your password</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+        <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('password')?.errors??['required'] ">Incorrect data</mat-error>
+      </mat-form-field>
+
+      <a (click)="goSignup()" class="link-signup">Do not have an account yet?</a>
+      <button type="submit" mat-raised-button [disabled]="sumbitted" color="primary">Submit</button>
+    </div>
+  </form>
+</div>

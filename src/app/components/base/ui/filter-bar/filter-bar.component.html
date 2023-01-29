@@ -1,0 +1,17 @@
+<div class="filter-bar-wrap">
+  <div class="filter-bar">
+    <div class="filter-bar-sort">
+      <span>Sort by:</span>
+      <mat-button-toggle-group
+        #toggleBtn
+        name="sortType"
+        aria-label="Sort type"
+        [value]="defaultSortTypeValue"
+        (change)="onChange($event)">
+        <ng-container *ngFor="let btnValue of sortButtonValues">
+          <mat-button-toggle [value]="btnValue">{{ btnValue }}</mat-button-toggle>
+        </ng-container>
+      </mat-button-toggle-group>
+    </div>
+  </div>
+</div>

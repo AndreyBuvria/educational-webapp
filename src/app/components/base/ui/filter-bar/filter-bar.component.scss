@@ -1,0 +1,12 @@
+mat-button-toggle-group {
+  height: 24px;
+  align-items: center;
+  margin-left: 5px;
+}
+
+.filter-bar {
+  display: flex;
+  &-sort {
+    padding: 12px 0;
+  }
+}

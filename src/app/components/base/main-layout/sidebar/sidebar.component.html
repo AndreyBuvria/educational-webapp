@@ -1,38 +1,38 @@
 <mat-drawer-container class="container">
   <mat-drawer #drawer mode="side" opened color="primary" class="sidenav">
-    <div class="profile">
+    <div *ngIf="user" class="profile">
       <div class="profile-wrap">
         <div class="profile-photo">
           <mat-icon color="primary" class="mat-icon-rtl-mirror mat-icon">perm_identity</mat-icon>
         </div>
       </div>
       <div class="profile-name">
-        <p>Username</p>
+        <a [routerLink]="userRouter + '/profile/' + user.username ">{{ user.username }}</a>
       </div>
     </div>
 
     <nav class="nav">
-      <ng-container *ngIf="whoUser != 'ANONYM'; else anonymous">
-        <ng-container *ngIf="whoUser == 'STUDENT'; then student; else teacher"></ng-container>
+      <ng-container *ngIf="user; else anonymous">
+        <ng-container *ngIf="user.role == 'STUDENT'; then student; else teacher"></ng-container>
 
         <ng-template #student>
           <mat-action-list class="list">
             <a
               mat-list-item
               class="list-item"
-              href="#">
+              [routerLink]="studentRoute + '/course'">
               <span>My courses</span>
             </a>
             <a
               mat-list-item
               class="list-item"
-              href="#">
+              (click)="onOpenFindCourseModal()">
               <span>Find course</span>
             </a>
             <a
               mat-list-item
               class="list-item"
-              href="#">
+              (click)="onOpenJoinCourseModal()">
               <span>Join course</span>
             </a>
           </mat-action-list>
@@ -63,24 +63,24 @@
           <a
             mat-list-item
             class="list-item"
-            href="#">
+            [routerLink]="authRoute + '/login'">
             <span>Login</span>
           </a>
           <a
             mat-list-item
             class="list-item"
-            href="#">
-            <span>Signup</span>
+            [routerLink]="authRoute + '/signup'">
+            <span>Sign Up</span>
           </a>
         </mat-action-list>
       </ng-template>
 
     </nav>
-    <div class="btn-logout">
+    <div *ngIf="user" class="btn-logout">
       <button mat-button (click)="onLogout()">Logout</button>
     </div>
   </mat-drawer>
-  <mat-drawer-content class="content">
+  <mat-drawer-content class="content" style="margin-left: 184px;">
     <router-outlet></router-outlet>
 
   </mat-drawer-content>

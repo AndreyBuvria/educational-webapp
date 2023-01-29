@@ -1,0 +1,18 @@
+:host {
+  flex: 1 1 25%;
+
+  &:last-child {
+    flex-grow: 0;
+  }
+}
+
+mat-card {
+  height: 80%;
+}
+
+.selected-link {
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}

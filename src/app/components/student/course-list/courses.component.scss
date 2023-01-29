@@ -1,0 +1,20 @@
+.wrapper {
+  padding: 15px 38px;
+}
+
+.header {
+  &-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  &-col {
+    flex: 1;
+  }
+}
+.course-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 12px;
+}

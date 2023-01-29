@@ -1,0 +1,41 @@
+.user-wrap {
+  max-width: 824px;
+  padding: 0 12px;
+  margin: 0 auto;
+}
+.user-profile {
+  border: 1px solid rgb(190, 190, 190);
+  border-radius: 4px;
+  &-header {
+    padding: 12px 6px;
+    text-align: center;
+
+    .profile-picture {
+      display: block;
+      img {
+        width: 120px;
+        height: 120px;
+        border: 1px solid rgb(190, 190, 190);
+        border-radius: 50%;
+      }
+    }
+  }
+  &-fields {
+
+  }
+  &-field {
+    display: flex;
+    padding: 8px 12px;
+    vertical-align: middle;
+    p {
+      margin: 0;
+      word-wrap: break-word;
+    }
+    &-key {
+      width: 20%;
+    }
+    &-value {
+      width: 80%;
+    }
+  }
+}
