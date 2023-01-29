@@ -9,10 +9,24 @@
   </div>
 
   <div class="content">
-    <ng-container *ngIf="courseList$; else loading">
-      <ng-container class="content" *ngFor="let course of (courseList$ | async)">
-        <app-course [course]="course"></app-course>
-      </ng-container>
+    <ng-container *ngIf="courseList$ | async as courseList; else loading">
+      <div class="course-list">
+        <ng-container *ngFor="let course of courseList">
+          <app-course [course]="course"></app-course>
+        </ng-container>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="paginationData$ | async as paginationData">
+      <div class="paginator">
+        <mat-paginator
+                [length]="paginationData.count"
+                [pageSize]="paginationData.length"
+                [pageSizeOptions]="getSuggestionsOfItemsPerPage(paginationData.count)"
+                (page)="onPageChange($event)"
+                aria-label="Select page">
+        </mat-paginator>
+      </div>
     </ng-container>
 
     <ng-template #loading>Loading...</ng-template>

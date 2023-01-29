@@ -1,8 +1,9 @@
+import { CourseApiService } from './../../../../shared/services/api/course-api.service';
+import { CourseService } from './../../../../shared/services/course.service';
 import { AppRoutesEnum } from 'src/app/shared/enums/routes.enum';
 import { JoinCourseResponse } from './interfaces/join-course.interface';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { CourseApiService } from 'src/app/shared/services/api/course-api.service';
 import { CourseInterface } from 'src/app/shared/interfaces/course.interface';
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -27,6 +28,7 @@ export class JoinCourseComponent implements OnInit {
   constructor(
     private modalRef: MatDialogRef<JoinCourseComponent>,
     private router: Router,
+    private courseService: CourseService,
     private courseApiService: CourseApiService
   ) { }
 
@@ -36,7 +38,7 @@ export class JoinCourseComponent implements OnInit {
   }
 
   private initCourseList() {
-    this.courseList = this.courseApiService.getCourseList();
+    this.courseList = this.courseService.allCourses$;
   }
   private initForm() {
     this.form = new FormGroup({

@@ -1,9 +1,10 @@
-import { MatDialogRef } from "@angular/material/dialog"
+import { CourseAccessType } from "../enums/course-access.enum"
 
 export interface CourseInterface {
   readonly key: string,
   readonly id: number,
-  author: string,
+  readonly author: string,
+  readonly access: CourseAccessType
   name: string,
   description: string,
   timecreated: string,

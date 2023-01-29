@@ -1,23 +1,54 @@
+import { PageEvent } from '@angular/material/paginator';
+import { CoursePaginationService } from './../course-pagination.service';
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CourseInterface, TaskInterface } from '../../interfaces/course.interface';
-import { Observable } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { JoinCourseResponse } from 'src/app/components/base/modals/join-course/interfaces/join-course.interface';
+import { BasePaginationResponse } from '../../interfaces/pagination-response.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CourseApiService {
+  private defaultPageSize: number = 2;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private coursePagination: CoursePaginationService
+  ) { }
 
   /* Course */
-  public getCourseList(): Observable<CourseInterface[]> {
+  public getCourseListWithoutPagination(): Observable<CourseInterface[]> {
     return this.http.get<CourseInterface[]>(`${environment.API_URL}course/`);
   }
-  public getCourseListForUser(): Observable<CourseInterface[]> {
-    return this.http.get<CourseInterface[]>(`${environment.API_URL}course/usr_joined/`);
+  public getCourseListWithPagination(): Observable<BasePaginationResponse<CourseInterface[]>> {
+    return this.coursePagination.pageEventUserCourses$
+      .pipe(
+        switchMap((data: PageEvent | null) => {
+          if (!data) return this.http.get<BasePaginationResponse<CourseInterface[]>>(`${environment.API_URL}course/?limit=${this.defaultPageSize}&offset=0`);
+
+          let limit = data.pageSize;
+          let offset = data.pageIndex;
+
+          return this.http.get<BasePaginationResponse<CourseInterface[]>>(`${environment.API_URL}course/?limit=${limit}&offset=${offset}`);
+        })
+    );
+  }
+
+  public getCourseListForUser(): Observable<BasePaginationResponse<CourseInterface[]>> {
+    return this.coursePagination.pageEventUserCourses$
+      .pipe(
+        switchMap((data: PageEvent | null) => {
+          if (!data) return this.http.get<BasePaginationResponse<CourseInterface[]>>(`${environment.API_URL}course/usr_joined/?limit=${this.defaultPageSize}&offset=0`);
+
+          let limit = data.pageSize;
+          let offset = data.pageIndex;
+
+          return this.http.get<BasePaginationResponse<CourseInterface[]>>(`${environment.API_URL}course/usr_joined/?limit=${limit}&offset=${offset}`);
+        })
+    );
   }
   public getCourse(courseId: CourseInterface['id']): Observable<CourseInterface>  {
     return this.http.get<CourseInterface>(`${environment.API_URL}course/${courseId}/`);
@@ -40,25 +71,4 @@ export class CourseApiService {
   public checkUserMembership(courseID: CourseInterface['id']): Observable<JoinCourseResponse<any>> {
     return this.http.get<JoinCourseResponse<any>>(`${environment.API_URL}course/${courseID}/check_user/`, { });
   }
-
-  /* Task */
-  public getTaskListByCourseId(courseID: CourseInterface['id']): Observable<TaskInterface[]> {
-    return this.http.get<TaskInterface[]>(`${environment.API_URL}course/${courseID}/tasks/`)
-  }
-  public getTaskList(): Observable<TaskInterface[]> {
-    return this.http.get<TaskInterface[]>(`${environment.API_URL}task/`);
-  }
-  public getTask(taskID: TaskInterface['id']): Observable<TaskInterface> {
-    return this.http.get<TaskInterface>(`${environment.API_URL}task/${taskID}/`);
-  }
-  public createTask(task: TaskInterface): Observable<any> {
-    return this.http.post(`${environment.API_URL}task/`, task);
-  }
-  public updateTask(task: TaskInterface): Observable<any> {
-    return this.http.patch(`${environment.API_URL}task/${task.id}/`, task);
-  }
-  public deleteTask(taskID: TaskInterface['id']): Observable<any> {
-    return this.http.delete(`${environment.API_URL}task/${taskID}/`);
-  }
-  /* */
 }

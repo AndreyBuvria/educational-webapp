@@ -16,7 +16,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class FindCourseComponent implements OnInit, OnDestroy {
   public form!: FormGroup;
   public isLoading: boolean = false;
-  public courseList$!: Observable<CourseInterface[] | null>;
+  public courseList$!: Observable<CourseInterface[]>;
 
   private status!: JoinCourseStatusResponse;
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -45,13 +45,15 @@ export class FindCourseComponent implements OnInit, OnDestroy {
     this.courseList$ = this.searchField.valueChanges
       .pipe(
         switchMap((searchFieldValue: string) => {
-          return this.courseApi.getCourseList()
+          return this.courseApi.getCourseListWithoutPagination()
             .pipe(
               map((courseList: CourseInterface[]) => {
                 if (searchFieldValue.length === 0) return [];
 
                 const value = searchFieldValue.toLowerCase();
-                return courseList.filter((course: CourseInterface) => course.name.toLowerCase().startsWith(value));
+                return courseList.filter((course: CourseInterface) => {
+                  return course.name.toLowerCase().startsWith(value) && course.access == 'Public';
+                });
               })
             )
         })

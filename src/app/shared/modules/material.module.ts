@@ -14,6 +14,7 @@ import {CdkAccordionModule} from '@angular/cdk/accordion';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 const MATERIALS = [
   MatSidenavModule,
@@ -30,6 +31,7 @@ const MATERIALS = [
   MatButtonToggleModule,
   MatDialogModule,
   MatAutocompleteModule,
+  MatPaginatorModule
 ];
 
 @NgModule({

@@ -1,8 +1,10 @@
+import { CourseApiService } from 'src/app/shared/services/api/course-api.service';
+import { TaskService } from './../../../shared/services/task.service';
+import { CourseService } from './../../../shared/services/course.service';
 import { AppRoutesEnum } from './../../../shared/enums/routes.enum';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TaskInterface, CourseInterface } from './../../../shared/interfaces/course.interface';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CourseApiService } from 'src/app/shared/services/api/course-api.service';
 import { Observable, switchMap, Subscription } from 'rxjs';
 import { FilterSortValues } from '../../base/ui/filter-bar/enums/filter-bar.enum';
 
@@ -12,8 +14,8 @@ import { FilterSortValues } from '../../base/ui/filter-bar/enums/filter-bar.enum
   styleUrls: ['./course.component.scss'],
 })
 export class CoursePageComponent implements OnInit, OnDestroy {
-  public taskList!: Observable<TaskInterface[]>;
-  public course!: Observable<CourseInterface>;
+  public taskList!: Observable<TaskInterface[] | null>;
+  public course!: Observable<CourseInterface | null>;
   public sortTypeValue: FilterSortValues = FilterSortValues.Default;
 
   private sub!: Subscription;
@@ -21,7 +23,10 @@ export class CoursePageComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private courseApi: CourseApiService) { }
+    private courseService: CourseService,
+    private courseApi: CourseApiService,
+    private taskService: TaskService
+  ) { }
 
   ngOnInit(): void {
     this.initTaskList();
@@ -33,16 +38,10 @@ export class CoursePageComponent implements OnInit, OnDestroy {
   }
 
   private initTaskList() {
-    this.taskList = this.route.params
-      .pipe(
-        switchMap((params: Params) => this.courseApi.getTaskListByCourseId(params['id']))
-    );
+    this.taskList = this.taskService.tasksRelatedToCourse$;
   }
   private initCourse() {
-    this.course = this.route.params
-      .pipe(
-        switchMap((params: Params) => this.courseApi.getCourse(params['id']))
-    );
+    this.course = this.courseService.course$;
   }
 
   public onLeaveCourse(courseID: CourseInterface['id']) {

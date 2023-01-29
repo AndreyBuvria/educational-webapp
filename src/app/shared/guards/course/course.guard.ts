@@ -1,3 +1,4 @@
+import { CourseService } from './../../services/course.service';
 import { AppRoutesEnum } from 'src/app/shared/enums/routes.enum';
 import { CourseApiService } from '../../services/api/course-api.service';
 import { Injectable } from '@angular/core';
@@ -11,7 +12,8 @@ export class CourseGuard implements CanActivate {
 
   constructor(
     private courseApi: CourseApiService,
-    private router: Router
+    private router: Router,
+    private courseService: CourseService
   ) {}
 
   canActivate(
@@ -22,6 +24,7 @@ export class CourseGuard implements CanActivate {
       .pipe(
         catchError(() => of(false)),
         tap((res: any) => {
+          this.courseService.setCurrentCourseID(courseID);
           if (!res) this.router.navigate(['/', AppRoutesEnum.Student, 'course']);
         }),
       )

@@ -1,8 +1,11 @@
+import { CoursePaginationService } from './../../../shared/services/course-pagination.service';
+import { PaginationData } from './../../../shared/interfaces/pagination-response.interface';
+import { CourseService } from './../../../shared/services/course.service';
 import { Router } from '@angular/router';
 import { CourseInterface } from './../../../shared/interfaces/course.interface';
-import { CourseApiService } from '../../../shared/services/api/course-api.service';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-courses',
@@ -10,17 +13,35 @@ import { Observable } from 'rxjs';
   styleUrls: ['./courses.component.scss']
 })
 export class CoursesComponent implements OnInit {
-  public courseList$: Observable<CourseInterface[]> = this.courseApi.getCourseListForUser();
+  public courseList$: Observable<CourseInterface[]> = this.courseService.userCourses$;
+  public paginationData$: Observable<PaginationData> = this.courseService.userCoursesPaginationData$;
 
   constructor(
-    private courseApi: CourseApiService,
-    private router: Router) { }
+    private courseService: CourseService,
+    private router: Router,
+    private coursePagination: CoursePaginationService) { }
 
   ngOnInit(): void {
   }
 
+  public getSuggestionsOfItemsPerPage(count: number) {
+    const size: number = 2 || 2;
+
+    let itemSections: number[] = [];
+
+    for (let i = 1; i <= count / size; i++) {
+      itemSections.push(i * size);
+    }
+
+    return itemSections;
+  }
+
   public goToCourse(courseId: number) {
     this.router.navigate(['/','student', 'course', courseId]);
+  }
+
+  public onPageChange(e: PageEvent) {
+    this.coursePagination.setPageEventUserCourses(e);
   }
 
 }
