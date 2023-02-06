@@ -6,8 +6,8 @@ enum UserRoles {
 export type UserType = keyof typeof UserRoles;
 export interface User {
   readonly id: number,
-  firstname: string,
-  lastname: string,
+  first_name: string,
+  last_name: string,
   username: string,
   email: string,
   role: UserType,
@@ -43,8 +43,8 @@ export interface UserLogin {
 }
 
 export interface UserSignup {
-  firstname: string,
-  lastname: string,
+  first_name: string,
+  last_name: string,
   username: string,
   role: string,
   email: string,

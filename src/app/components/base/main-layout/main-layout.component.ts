@@ -1,9 +1,8 @@
 import { UserService } from './../../../shared/services/user.service';
 import { User } from './../../../shared/interfaces/user.interface';
-import { UserApiService } from '../../../shared/services/api/user-api.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { UserSimple, UserType } from 'src/app/shared/interfaces/user.interface';
 import { map, Subject, takeUntil, Observable } from 'rxjs';
 
@@ -21,7 +20,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private userService: UserService,
-    private cookie: CookieService
+    private cookie: CookieService,
   ) { }
 
   ngOnInit(): void {

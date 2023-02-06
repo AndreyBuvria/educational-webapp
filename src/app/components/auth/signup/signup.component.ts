@@ -60,8 +60,8 @@ export class SignupComponent implements OnInit {
     this.sumbitted = true;
 
     const data = {
-      firstname: this.form.get('firstname')!.value,
-      lastname: this.form.get('lastname')!.value,
+      first_name: this.form.get('firstname')!.value,
+      last_name: this.form.get('lastname')!.value,
       username: this.form.get('username')!.value,
       role: this.form.get('role')!.value,
       email: this.form.get('email')!.value,
