@@ -1,3 +1,4 @@
+import { MainLayoutComponent } from './components/base/main-layout/main-layout.component';
 import { UserCommonGuard } from './shared/guards/user-common.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';

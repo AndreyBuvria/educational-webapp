@@ -1,3 +1,4 @@
+import { StudentRoutingModule } from './student-routing.module';
 import { CourseGuard } from './../../shared/guards/course/course.guard';
 import { TruncatePipe } from './../../shared/pipes/truncate.pipe';
 import { MaterialModule } from 'src/app/shared/modules/material.module';
@@ -6,7 +7,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoursesComponent } from './course-list/courses.component';
 import { CoursePageComponent } from './course/course.component';
-import { MainLayoutComponent } from '../base/main-layout/main-layout.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FileUploadComponent } from '../base/ui/file-upload/file-upload.component';
 import { TaskComponent } from './course/task/task.component';
@@ -29,29 +29,7 @@ import { CourseComponent } from './course-list/course/course.component';
     CommonModule,
     MaterialModule,
     ReactiveFormsModule,
-    RouterModule.forChild([
-      {
-        path: '',
-        component: MainLayoutComponent,
-        children: [
-          {
-            path: '',
-            redirectTo: 'course',
-            pathMatch: 'full',
-          },
-          {
-            path: 'course',
-            component: CoursesComponent,
-          },
-          {
-            path: 'course/:id',
-            component: CoursePageComponent,
-            canActivate: [CourseGuard],
-          },
-          { path: '**', redirectTo: 'course' }
-        ]
-      }
-    ])
+    StudentRoutingModule
   ],
   exports: [
     RouterModule,
