@@ -1,11 +1,11 @@
-import { MainLayoutComponent } from './components/base/main-layout/main-layout.component';
-import { UserCommonGuard } from './shared/guards/user-common.guard';
+import { MainLayoutComponent } from './shared/components/main-layout/main-layout.component';
+import { UserCommonGuard } from './user-common/guards/user-common.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { WelcomeComponent } from './components/base/welcome/welcome.component';
-import { AuthGuard } from './shared/guards/auth.guard';
-import { LoggedInGuard } from './shared/guards/logged-in.guard';
-import { AppRoutesEnum } from './shared/enums/routes.enum';
+import { WelcomeComponent } from './welcome/welcome.component';
+import { AuthGuard } from './auth/guards/auth.guard';
+import { LoggedInGuard } from './main/guards/logged-in.guard';
+import { AppRoutesEnum } from './core/enums/routes.enum';
 
 const routes: Routes = [
   { path: '', redirectTo: `/${AppRoutesEnum.Welcome}`, pathMatch: 'full' },
@@ -17,13 +17,13 @@ const routes: Routes = [
     path: AppRoutesEnum.Auth,
     canLoad: [LoggedInGuard],
     loadChildren: () =>
-      import('./components/auth/auth.module').then((mod) => mod.AuthModule),
+      import('./auth/auth.module').then((mod) => mod.AuthModule),
   },
   {
     path: AppRoutesEnum.User,
     canLoad: [UserCommonGuard],
     loadChildren: () =>
-      import('./components/user-common/user-common.module').then((mod) => mod.UserCommonModule),
+      import('./user-common/user-common.module').then((mod) => mod.UserCommonModule),
   },
   {
     path: AppRoutesEnum.Student,
@@ -32,7 +32,7 @@ const routes: Routes = [
       role: 'STUDENT',
     },
     loadChildren: () =>
-      import('./components/student/student.module').then((mod) => mod.StudentModule),
+      import('./main/student/student.module').then((mod) => mod.StudentModule),
   },
   {
     path: AppRoutesEnum.Teacher,
@@ -41,7 +41,7 @@ const routes: Routes = [
     },
     canLoad: [AuthGuard],
     loadChildren: () =>
-      import('./components/teacher/teacher.module').then((mod) => mod.TeacherModule),
+      import('./main/teacher/teacher.module').then((mod) => mod.TeacherModule),
   },
   { path: '**', redirectTo: `/${AppRoutesEnum.Welcome}` }
 ];
