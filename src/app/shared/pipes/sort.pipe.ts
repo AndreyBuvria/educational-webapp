@@ -1,6 +1,6 @@
-import { FilterSortValues } from '../../components/base/ui/filter-bar/enums/filter-bar.enum';
-import { TaskInterface } from './../interfaces/course.interface';
+import { FilterSortValues } from '../components/ui/filter-bar/enums/filter-bar.enum';
 import { Pipe, PipeTransform } from '@angular/core';
+import { TaskInterface } from 'src/app/main/interfaces/course.interface';
 
 @Pipe({
   name: 'sort'
