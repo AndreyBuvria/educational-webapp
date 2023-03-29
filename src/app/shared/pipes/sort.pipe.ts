@@ -1,12 +1,12 @@
-import { FilterSortValues } from '../components/ui/filter-bar/enums/filter-bar.enum';
+import { FilterSortValues } from '../../features/content-control';
 import { Pipe, PipeTransform } from '@angular/core';
-import { TaskInterface } from 'src/app/main/interfaces/course.interface';
+import { TaskItem } from 'src/app/features/task';
 
 @Pipe({
   name: 'sort'
 })
 export class SortPipe implements PipeTransform {
-  transform(taskList: TaskInterface[], param: FilterSortValues): TaskInterface[] {
+  transform(taskList: TaskItem[], param: FilterSortValues): TaskItem[] {
     return taskList.sort(this.sortCompareFn(param));
   }
 
