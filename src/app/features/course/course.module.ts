@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
-import { SharedModule } from "../../shared";
+import { SharedModule } from "@shared";
 import { CourseItemComponent, FindCourseComponent, JoinCourseComponent } from "./components";
 import { CourseSuggestionComponent } from "./components/find-course";
 
@@ -10,13 +10,18 @@ import { CourseSuggestionComponent } from "./components/find-course";
     CourseItemComponent,
     JoinCourseComponent,
     FindCourseComponent,
-    CourseSuggestionComponent
+    CourseSuggestionComponent,
   ],
   imports: [
     SharedModule,
     RouterModule,
     ReactiveFormsModule
   ],
-  exports: [CourseItemComponent]
+  exports: [
+    CourseItemComponent,
+    JoinCourseComponent,
+    FindCourseComponent,
+    CourseSuggestionComponent,
+  ]
 })
 export class CourseModule {}

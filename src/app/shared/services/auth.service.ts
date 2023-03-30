@@ -1,6 +1,6 @@
 import { CookieService } from 'ngx-cookie-service';
 import { Injectable } from '@angular/core';
-import { TokenBody, TokenJWT } from '../../../features/user/interfaces/user.interface';
+import { TokenBody, TokenJWT } from '@features/user';
 
 @Injectable({
   providedIn: 'root'

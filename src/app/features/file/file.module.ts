@@ -1,4 +1,4 @@
-import { SharedModule } from './../../shared';
+import { SharedModule } from '@shared';
 import { NgModule } from "@angular/core";
 import { FileUploadComponent } from './components';
 

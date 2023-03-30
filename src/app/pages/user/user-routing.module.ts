@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { MainLayoutComponent } from "@layouts/main";
 import { UserPageComponent } from "./user.component";
 
 const routes: Routes = [
@@ -21,4 +20,4 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: []
 })
-export class TeacherRoutingModule { }
+export class UserRoutingModule { }

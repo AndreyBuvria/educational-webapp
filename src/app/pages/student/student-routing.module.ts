@@ -1,9 +1,8 @@
-import { MainLayoutComponent } from '../../layouts/main/main.component';
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { CourseGuard } from "src/app/pages/student/guards/course.guard";
 import { CoursePageComponent } from "./components/course/course.component";
-import { CourseListComponent } from './components/course/course-list/course-list.component';
+import { CourseListComponent } from './components/course';
+import { CourseGuard } from "@shared/guards";
 
 const routes: Routes = [
   {
@@ -26,6 +25,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: []
+  providers: [CourseGuard]
 })
 export class StudentRoutingModule { }

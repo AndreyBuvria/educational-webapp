@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { SharedModule } from "../../shared";
+import { SharedModule } from "@shared";
 import { FilterBarComponent } from "./components";
 
 @NgModule({
@@ -9,4 +9,4 @@ import { FilterBarComponent } from "./components";
   ],
   exports: [FilterBarComponent]
 })
-export class ContentControlModule {}
+export class ContentControlsModule {}

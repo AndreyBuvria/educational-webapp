@@ -3,9 +3,8 @@ import { StudentRoutingModule } from './student-routing.module';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SharedModule } from "@shared";
+import { SharedModule } from '@shared';
 import { CourseListComponent, CoursePageComponent } from './components';
-import { CourseGuard } from './guards';
 
 @NgModule({
   declarations: [
@@ -15,11 +14,8 @@ import { CourseGuard } from './guards';
   imports: [
     ReactiveFormsModule,
     StudentRoutingModule,
+    SharedModule,
     FeaturesModule,
-    SharedModule
-  ],
-  providers: [
-    CourseGuard,
   ],
   exports: [
     RouterModule,

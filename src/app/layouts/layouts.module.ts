@@ -12,4 +12,4 @@ import { MainLayoutComponent } from "./main";
   ],
   exports: [MainLayoutComponent, SidebarComponent]
 })
-export class LayoutModule {}
+export class LayoutsModule {}

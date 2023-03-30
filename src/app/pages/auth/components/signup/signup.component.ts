@@ -1,8 +1,8 @@
-import { AuthApi } from '../../apis';
+import { AuthApi } from '../../../../shared/apis';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { checkPasswordMatch } from 'src/app/shared/validators/password.validator';
+import { checkPasswordMatch } from '@shared/validators';
 import { Subject, takeUntil } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 

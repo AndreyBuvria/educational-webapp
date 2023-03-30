@@ -1,6 +1,6 @@
-import { FilterSortValues } from '../../features/content-control';
+import { FilterSortValues } from '../../content-controls';
 import { Pipe, PipeTransform } from '@angular/core';
-import { TaskItem } from 'src/app/features/task';
+import { TaskItem } from '..';
 
 @Pipe({
   name: 'sort'

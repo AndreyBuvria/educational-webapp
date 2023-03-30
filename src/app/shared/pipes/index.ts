@@ -1,2 +1,1 @@
-export * from './sort.pipe';
-export * from './truncate.pipe';
+export * from './pipes.module';

@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { TaskItem, TaskService } from '@features/task';
-import { FilterSortValues } from '@features/content-control';
+import { FilterSortValues } from '@features/content-controls';
 
 @Component({
   selector: 'app-course-page',
@@ -19,7 +19,6 @@ export class CoursePageComponent implements OnInit, OnDestroy {
   private sub!: Subscription;
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private courseService: CourseService,
     private courseApi: CourseApi,

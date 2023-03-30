@@ -3,8 +3,8 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, switchMap, takeUntil, Observable } from 'rxjs';
-import { AuthService } from '../../services';
-import { AuthApi } from '../../apis';
+import { AuthService } from '../../../../shared/services';
+import { AuthApi } from '../../../../shared/apis';
 import { TokenJWT, User, UserService } from '@features/user';
 
 @Component({

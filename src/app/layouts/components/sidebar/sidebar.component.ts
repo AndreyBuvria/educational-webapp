@@ -1,11 +1,10 @@
-import { AuthService } from 'src/app/pages/auth/services/auth.service';
-import { UserSimple } from '@features/user/interfaces/user.interface';
+import { AuthService } from '../../../shared/services';
+import { UserSimple } from '@features/user';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { JoinCourseComponent } from '../../../features/course/components/join-course/join-course.component';
-import { AppRoutesEnum } from '@core/enums/app-routes.enum';
-import { FindCourseComponent } from '../../../features/course/components/find-course/find-course.component';
+import { JoinCourseComponent, FindCourseComponent } from '@features/course';
+import { AppRoutesEnum } from '@core/enums';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',

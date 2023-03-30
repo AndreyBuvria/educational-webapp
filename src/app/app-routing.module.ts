@@ -1,10 +1,8 @@
-import { UserGuard } from './pages/user/guards';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './pages/auth/guards/auth.guard';
-import { LoggedInGuard } from './pages/auth/guards';
 import { AppRoutesEnum } from './core/enums';
 import { MainLayoutComponent } from '@layouts/main';
+import { AuthGuard, LoggedInGuard, UserGuard } from '@shared/guards';
 
 const routes: Routes = [
   {

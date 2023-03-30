@@ -1,4 +1,4 @@
-import { LayoutModule } from './layouts';
+import { LayoutsModule } from './layouts';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
-import { TokenInterceptor } from './core/interceptors/token.interceptor';
+import { TokenInterceptor } from './core';
 import { SharedModule } from '@shared';
 
 @NgModule({
@@ -14,12 +14,12 @@ import { SharedModule } from '@shared';
     AppComponent,
   ],
   imports: [
+    SharedModule,
     BrowserModule,
     AppRoutingModule,
-    SharedModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    LayoutModule,
+    LayoutsModule,
   ],
   providers: [CookieService,
     {
