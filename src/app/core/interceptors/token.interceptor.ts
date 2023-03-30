@@ -8,8 +8,7 @@ import {
   HttpErrorResponse
 } from '@angular/common/http';
 import { BehaviorSubject, catchError, filter, finalize, Observable, switchMap, take, throwError } from 'rxjs';
-import { AuthService } from '../../shared/services';
-import { AuthApi } from '../../shared/apis';
+import { AuthService, AuthApi } from '@features/auth';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {

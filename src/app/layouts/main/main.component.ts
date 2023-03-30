@@ -1,6 +1,6 @@
 import { UserService } from '../../features/user/services/user.service';
 import { User } from '../../features/user/interfaces/user.interface';
-import { AuthService } from '@shared/services/auth.service';
+import { AuthService } from '@features/auth/services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { UserSimple, UserType } from '@features/user/interfaces/user.interface';

@@ -1,7 +1,7 @@
-import { AuthApi } from '../apis';
+import { AuthApi } from '../../features/auth/apis';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserType } from '@features/user';
-import { AuthService } from '../services';
+import { AuthService } from '../../features/auth/services';
 import { CookieService } from 'ngx-cookie-service';
 import { Injectable } from '@angular/core';
 import { Router, UrlTree, CanLoad, Route, UrlSegment } from '@angular/router';
