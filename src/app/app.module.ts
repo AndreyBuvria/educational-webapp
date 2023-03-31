@@ -8,6 +8,12 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { TokenInterceptor } from './core';
 import { SharedModule } from '@shared';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { StoreModule } from '@ngrx/store';
+import { userReducer } from '@store/reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { CoursesEffects } from '@store/effects';
 
 @NgModule({
   declarations: [
@@ -20,6 +26,11 @@ import { SharedModule } from '@shared';
     BrowserAnimationsModule,
     HttpClientModule,
     LayoutsModule,
+    StoreModule.forRoot(
+      { 'authData': userReducer }
+    ),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    EffectsModule.forRoot([CoursesEffects]),
   ],
   providers: [CookieService,
     {

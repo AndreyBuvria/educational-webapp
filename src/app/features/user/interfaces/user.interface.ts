@@ -6,17 +6,17 @@ enum UserRoles {
 export type UserType = keyof typeof UserRoles;
 export interface User {
   readonly id: number,
-  first_name: string,
-  last_name: string,
-  username: string,
-  email: string,
-  role: UserType,
-  about: string,
-  password: string,
-  data_joined: Date | null,
-  timecreate: Date,
-  is_superuser: boolean,
-  img?: string
+  readonly first_name: string,
+  readonly last_name: string,
+  readonly username: string,
+  readonly email: string,
+  readonly role: UserType,
+  readonly about: string,
+  readonly password: string,
+  readonly data_joined: Date | null,
+  readonly timecreate: Date,
+  readonly is_superuser: boolean,
+  readonly img?: string
 }
 
 export interface UserSimple {
