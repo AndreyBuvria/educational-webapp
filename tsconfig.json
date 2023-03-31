@@ -31,6 +31,8 @@
       "@features/*": ["./src/app/features/*"],
       "@layouts": ["./src/app/layouts"],
       "@layouts/*": ["./src/app/layouts/*"],
+      "@store": ["./src/app/store"],
+      "@store/*": ["./src/app/store/*"],
     }
   },
   "angularCompilerOptions": {
