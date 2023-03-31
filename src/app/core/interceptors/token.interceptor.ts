@@ -1,5 +1,3 @@
-import { AuthApiService } from '../../auth/apis/auth-api.service';
-import { AuthService } from 'src/app/auth/services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Injectable } from '@angular/core';
 import {
@@ -10,6 +8,7 @@ import {
   HttpErrorResponse
 } from '@angular/common/http';
 import { BehaviorSubject, catchError, filter, finalize, Observable, switchMap, take, throwError } from 'rxjs';
+import { AuthService, AuthApi } from '@features/auth';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -20,7 +19,7 @@ export class TokenInterceptor implements HttpInterceptor {
   constructor(
     private cookie: CookieService,
     private authService: AuthService,
-    private autApihService: AuthApiService
+    private autApiService: AuthApi
   ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -39,7 +38,7 @@ export class TokenInterceptor implements HttpInterceptor {
             this.refreshTokenInProgress = true;
             this.refreshTokenSubject.next(null);
 
-            return this.autApihService.refreshToken(refreshToken).pipe(
+            return this.autApiService.refreshToken(refreshToken).pipe(
               switchMap((token) => {
                 this.refreshTokenSubject.next(token.access);
                 this.authService.setAccessToken(token.access);
