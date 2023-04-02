@@ -19,10 +19,6 @@ export class CourseApi {
     private coursePagination: CoursePaginationService
   ) { }
 
-  /* Course */
-  public getCourseListWithoutPagination(): Observable<CourseItem[]> {
-    return this.http.get<CourseItem[]>(`${environment.API_URL}course/`);
-  }
   public getCourseListWithPagination(): Observable<BasePaginationResponse<CourseItem[]>> {
     return this.coursePagination.pageEventUserCourses$
       .pipe(
@@ -35,6 +31,18 @@ export class CourseApi {
           return this.http.get<BasePaginationResponse<CourseItem[]>>(`${environment.API_URL}course/?limit=${limit}&offset=${offset}`);
         })
     );
+  }
+
+  public getOne(id: number): Observable<CourseItem> {
+    return this.http.get<CourseItem>(`${environment.API_URL}course/${id}/`);
+  }
+
+  public getList(): Observable<CourseItem[]> {
+    return this.http.get<CourseItem[]>(`${environment.API_URL}course/`);
+  }
+
+  public getListToUser(): Observable<CourseItem[]> {
+    return this.http.get<CourseItem[]>(`${environment.API_URL}course/usr_joined`);
   }
 
   public getCourseListForUser(): Observable<BasePaginationResponse<CourseItem[]>> {
@@ -50,18 +58,21 @@ export class CourseApi {
         })
     );
   }
-  public getCourse(courseId: CourseItem['id']): Observable<CourseItem>  {
-    return this.http.get<CourseItem>(`${environment.API_URL}course/${courseId}/`);
-  }
-  public createCourse(course: CourseItem): Observable<any> {
+
+  public create(course: CourseItem): Observable<any> {
     return this.http.post(`${environment.API_URL}course/`, course);
   }
-  public updateCourse(course: CourseItem): Observable<any> {
+  public update(course: CourseItem): Observable<any> {
     return this.http.patch(`${environment.API_URL}course/${course.id}/`, course);
   }
-  public deleteCourse(courseID: CourseItem['id']): Observable<any> {
+  public delete(courseID: CourseItem['id']): Observable<any> {
     return this.http.delete(`${environment.API_URL}course/${courseID}/`);
   }
+
+  public patch(data: Partial<CourseItem>): Observable<CourseItem> {
+    return this.http.patch<CourseItem>(`${environment.API_URL}course/`, data);
+  }
+
   public addUserToCourse(courseKey: CourseItem['key']): Observable<JoinCourseResponse<any>> {
     return this.http.patch<JoinCourseResponse<any>>(`${environment.API_URL}course/add_user/`, { key: courseKey });
   }

@@ -13,7 +13,9 @@ import { environment } from '../environments/environment';
 import { StoreModule } from '@ngrx/store';
 import { userReducer } from '@store/reducers';
 import { EffectsModule } from '@ngrx/effects';
-import { CoursesEffects } from '@store/effects';
+import { CoursesEffects } from '@store/effects/course.effects';
+import { TaskEffects } from '@store/effects/task.effects';
+
 
 @NgModule({
   declarations: [
@@ -27,10 +29,10 @@ import { CoursesEffects } from '@store/effects';
     HttpClientModule,
     LayoutsModule,
     StoreModule.forRoot(
-      { 'authData': userReducer }
+      { 'authData' : userReducer }
     ),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    EffectsModule.forRoot([CoursesEffects]),
+    EffectsModule.forRoot([]),
   ],
   providers: [CookieService,
     {

@@ -4,6 +4,10 @@ import { Observable } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { PaginationData } from '@shared/interfaces';
 import { CourseService, CourseItem, CoursePaginationService } from '@features/course';
+import { Store } from '@ngrx/store';
+import { AppState } from '@store';
+import { selectCourseList } from '@store/selectors';
+import { fetchCourseList } from '@store/actions';
 
 @Component({
   selector: 'app-courses',
@@ -11,15 +15,17 @@ import { CourseService, CourseItem, CoursePaginationService } from '@features/co
   styleUrls: ['./course-list.component.scss']
 })
 export class CourseListComponent implements OnInit {
-  public courseList$: Observable<CourseItem[]> = this.courseService.userCourses$;
+  public courseList$: Observable<CourseItem[]> = this.store.select(selectCourseList);
   public paginationData$: Observable<PaginationData> = this.courseService.userCoursesPaginationData$;
 
   constructor(
     private courseService: CourseService,
     private router: Router,
-    private coursePagination: CoursePaginationService) { }
+    private coursePagination: CoursePaginationService,
+    private store: Store<AppState>) { }
 
   ngOnInit(): void {
+    this.store.dispatch(fetchCourseList({ courseList: [] }));
   }
 
   public getSuggestionsOfItemsPerPage(count: number) {

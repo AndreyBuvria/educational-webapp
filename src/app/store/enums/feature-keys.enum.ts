@@ -1,3 +1,4 @@
 export enum FeatureKeysEnum {
-  CourseList = 'courseList',
+  Course = 'course',
+  Task = 'task',
 }

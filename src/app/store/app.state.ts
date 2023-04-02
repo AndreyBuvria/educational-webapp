@@ -1,3 +1,7 @@
-import { CourseState, UserState } from "./states";
+import { CourseListState, UserState, AuthDataState, CourseState } from "./states";
 
-export interface AppState extends UserState, CourseState {}
+export interface AppState extends
+  UserState,
+  CourseListState,
+  CourseState,
+  AuthDataState {}

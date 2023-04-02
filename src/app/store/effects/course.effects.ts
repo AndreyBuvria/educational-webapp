@@ -6,13 +6,27 @@ import * as CourseActions from '../actions/course.actions';
 
 @Injectable()
 export class CoursesEffects {
-  fetchCourses$ = createEffect(
+  fetchCourseList$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(CourseActions.getCourseList),
+        ofType(CourseActions.fetchCourseList),
         exhaustMap(() =>
-          this.courseApi.getCourseListWithoutPagination().pipe(
-            map((data) => CourseActions.getCourseList({ courseList: data })),
+          this.courseApi.getList().pipe(
+            map((data) => CourseActions.fetchCourseList({ courseList: data })),
+            catchError(() => EMPTY)
+          )
+        )
+      );
+    },
+  );
+
+  fetchCourse$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(CourseActions.invokeFetchingCourse),
+        exhaustMap((action) =>
+          this.courseApi.getOne(action.id).pipe(
+            map((data) => CourseActions.getCourseOne({ courseItem: data })),
             catchError(() => EMPTY)
           )
         )

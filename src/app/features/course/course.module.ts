@@ -6,7 +6,7 @@ import { RouterModule } from "@angular/router";
 import { SharedModule } from "@shared";
 import { CourseItemComponent, FindCourseComponent, JoinCourseComponent } from "./components";
 import { CourseSuggestionComponent } from "./components/find-course";
-import { CoursesEffects } from '@store/effects';
+import { CoursesEffects } from '@store/effects/course.effects';
 import { StoreModule } from '@ngrx/store';
 import { FeatureKeysEnum } from '@store/enums';
 
@@ -21,7 +21,7 @@ import { FeatureKeysEnum } from '@store/enums';
     SharedModule,
     RouterModule,
     ReactiveFormsModule,
-    StoreModule.forFeature(FeatureKeysEnum.CourseList, courseReducer),
+    StoreModule.forFeature(FeatureKeysEnum.Course, courseReducer),
     EffectsModule.forFeature([CoursesEffects])
   ],
   exports: [

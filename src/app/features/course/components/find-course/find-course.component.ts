@@ -45,7 +45,7 @@ export class FindCourseComponent implements OnInit, OnDestroy {
     this.courseList$ = this.searchField.valueChanges
       .pipe(
         switchMap((searchFieldValue: string) => {
-          return this.courseApi.getCourseListWithoutPagination()
+          return this.courseApi.getList()
             .pipe(
               map((courseList: CourseItem[]) => {
                 if (searchFieldValue.length === 0) return [];

@@ -2,9 +2,13 @@ import { CourseApi, CourseItem, CourseService } from '@features/course';
 import { AppRoutesEnum } from '@core/enums';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, switchMap } from 'rxjs';
 import { TaskItem, TaskService } from '@features/task';
 import { FilterSortValues } from '@features/content-controls';
+import { Store } from '@ngrx/store';
+import { AppState } from '@store';
+import { invokeFetchingCourse } from '@store/actions';
+import { selectCourseItem } from '@store/selectors';
 
 @Component({
   selector: 'app-course-page',
@@ -13,16 +17,18 @@ import { FilterSortValues } from '@features/content-controls';
 })
 export class CoursePageComponent implements OnInit, OnDestroy {
   public taskList!: Observable<TaskItem[] | null>;
-  public course!: Observable<CourseItem | null>;
+  public course: Observable<CourseItem> = this.store.select(selectCourseItem);
   public sortTypeValue: FilterSortValues = FilterSortValues.Default;
 
   private sub!: Subscription;
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private courseService: CourseService,
     private courseApi: CourseApi,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private store: Store<AppState>
   ) { }
 
   ngOnInit(): void {
@@ -38,7 +44,9 @@ export class CoursePageComponent implements OnInit, OnDestroy {
     this.taskList = this.taskService.tasksRelatedToCourse$;
   }
   private initCourse() {
-    this.course = this.courseService.course$;
+    const paramId = this.route.snapshot.params['id'];
+
+    this.store.dispatch(invokeFetchingCourse({ id: paramId }));
   }
 
   public onLeaveCourse(courseID: CourseItem['id']) {

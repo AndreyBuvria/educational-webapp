@@ -7,27 +7,27 @@ import { TaskItem } from '../interfaces';
 @Injectable({
   providedIn: 'root'
 })
-export class TaskApiService {
+export class TaskApi {
 
   constructor(private http: HttpClient) { }
 
   /* Task */
-  public getTaskListByCourseId(courseID: number): Observable<TaskItem[]> {
+  public getListByCourseId(courseID: number): Observable<TaskItem[]> {
     return this.http.get<TaskItem[]>(`${environment.API_URL}task/${courseID}/course/`)
   }
-  public getTaskList(): Observable<TaskItem[]> {
+  public getList(): Observable<TaskItem[]> {
     return this.http.get<TaskItem[]>(`${environment.API_URL}task/`);
   }
-  public getTask(taskID: TaskItem['id']): Observable<TaskItem> {
+  public getOne(taskID: TaskItem['id']): Observable<TaskItem> {
     return this.http.get<TaskItem>(`${environment.API_URL}task/${taskID}/`);
   }
-  public createTask(task: TaskItem): Observable<any> {
+  public create(task: TaskItem): Observable<any> {
     return this.http.post(`${environment.API_URL}task/`, task);
   }
-  public updateTask(task: TaskItem): Observable<any> {
+  public update(task: TaskItem): Observable<any> {
     return this.http.patch(`${environment.API_URL}task/${task.id}/`, task);
   }
-  public deleteTask(taskID: TaskItem['id']): Observable<any> {
+  public delete(taskID: TaskItem['id']): Observable<any> {
     return this.http.delete(`${environment.API_URL}task/${taskID}/`);
   }
   /* */

@@ -59,7 +59,7 @@ export class CourseService {
     return this.currentCourseID$
       .pipe(
         switchMap((courseID: number | null) => {
-          return courseID ? this.courseApi.getCourse(courseID) : of(null);
+          return courseID ? this.courseApi.getOne(courseID) : of(null);
         })
     );
   }
