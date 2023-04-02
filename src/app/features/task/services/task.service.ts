@@ -2,7 +2,7 @@ import { CourseService } from '../../course/services/course.service';
 import { Observable, Subject, BehaviorSubject, switchMap, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { PaginationData } from '../../../shared/interfaces/pagination-response.interface';
-import { TaskApiService } from '../apis/task-api.service';
+import { TaskApi } from '../apis/task.api';
 import { TaskItem } from '../interfaces';
 
 @Injectable({
@@ -16,23 +16,23 @@ export class TaskService {
   public tasksRelatedToCourse$: Observable<TaskItem[] | null> = this.initTasksRelatedToCourse();
 
   constructor(
-    private taskApi: TaskApiService,
+    private taskApi: TaskApi,
     private courseService: CourseService,
   ) { }
 
   private initTasks(): Observable<TaskItem[]> {
-    return this.taskApi.getTaskList();
+    return this.taskApi.getList();
   }
   public initTasksRelatedToCourse(): Observable<TaskItem[] | null> {
     return this.courseService.currentCourseID$
       .pipe(
         switchMap((courseID: number | null) => {
-          return courseID ? this.taskApi.getTaskListByCourseId(courseID) : of(null);
+          return courseID ? this.taskApi.getListByCourseId(courseID) : of(null);
         })
     );
   }
 
   public getTask(taskID: TaskItem['id']): Observable<TaskItem> {
-    return this.taskApi.getTask(taskID);
+    return this.taskApi.getOne(taskID);
   }
 }

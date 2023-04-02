@@ -3,6 +3,11 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { SharedModule } from "@shared";
 import { TaskItemComponent } from "./components";
 import { SortPipe } from "./pipes";
+import { StoreModule } from "@ngrx/store";
+import { FeatureKeysEnum } from "@store/enums";
+import { taskToCourseReducer } from "@store/reducers";
+import { EffectsModule } from "@ngrx/effects";
+import { TaskEffects } from "@store/effects/task.effects";
 
 @NgModule({
   declarations: [
@@ -11,7 +16,9 @@ import { SortPipe } from "./pipes";
   ],
   imports: [
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    StoreModule.forFeature(FeatureKeysEnum.Task, taskToCourseReducer),
+    EffectsModule.forFeature([TaskEffects])
   ],
   exports: [
     TaskItemComponent,

@@ -23,7 +23,7 @@ export class CourseGuard implements CanActivate {
       .pipe(
         catchError(() => of(false)),
         tap((res: any) => {
-          this.courseService.setCurrentCourseID(courseID);
+          //this.courseService.setCurrentCourseID(courseID);
           if (!res) this.router.navigate(['/', AppRoutesEnum.Student, 'course']);
         }),
       )

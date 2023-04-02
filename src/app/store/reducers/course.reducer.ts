@@ -1,10 +1,20 @@
-import { CourseItem } from "@features/course";
 import { createReducer, on } from "@ngrx/store";
 import * as CourseActions from '../actions/course.actions';
+import { CourseState } from "@store/states";
 
-const initialState: CourseItem[] = [];
+const initialState: CourseState = {
+  courseItem: null,
+  courseList: []
+};
 
 export const courseReducer = createReducer(
   initialState,
-  on(CourseActions.getCourseList, (state, { courseList }) => courseList)
-)
+  on(CourseActions.fetchCourseList, (state, { courseList }) => ({
+    ...state,
+    courseList
+  })),
+  on(CourseActions.getCourseOne, (state, { courseItem }) => ({
+    ...state,
+    courseItem
+  }))
+);

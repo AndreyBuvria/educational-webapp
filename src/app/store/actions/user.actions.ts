@@ -1,6 +1,5 @@
-import { User } from "@features/user";
 import { createAction, props } from "@ngrx/store";
-import { UserState } from "../states/user.state";
+import { UserState } from "../states";
 
 export const clearUser = createAction(
   '[User] Clear user'

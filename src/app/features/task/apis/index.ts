@@ -1,1 +1,1 @@
-export * from './task-api.service';
+export * from './task.api';
