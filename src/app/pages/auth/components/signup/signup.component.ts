@@ -1,4 +1,4 @@
-import { AuthApi } from '@features/auth';
+import { TokenApi } from '@features/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
@@ -31,7 +31,7 @@ export class SignupComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private authApiService: AuthApi,
+    private tokenApi: TokenApi,
     private snackBar: MatSnackBar
   ) { }
 
@@ -71,7 +71,7 @@ export class SignupComponent implements OnInit {
 
     console.log(data);
 
-    this.authApiService.signup(data)
+    this.tokenApi.signup(data)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response: any) => {

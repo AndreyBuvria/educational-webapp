@@ -7,7 +7,7 @@ import { UserLogin, UserSignup } from '@features/user';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthApi {
+export class TokenApi {
 
   constructor(private http: HttpClient) { }
 

@@ -8,18 +8,17 @@ import {
   HttpErrorResponse
 } from '@angular/common/http';
 import { BehaviorSubject, catchError, filter, finalize, Observable, switchMap, take, throwError } from 'rxjs';
-import { AuthService, AuthApi } from '@features/auth';
+import { TokenService, TokenApi } from '@features/auth';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-
   private refreshTokenInProgress = false;
   private refreshTokenSubject = new BehaviorSubject(null);
 
   constructor(
     private cookie: CookieService,
-    private authService: AuthService,
-    private autApiService: AuthApi
+    private tokenService: TokenService,
+    private tokenApi: TokenApi
   ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -38,10 +37,10 @@ export class TokenInterceptor implements HttpInterceptor {
             this.refreshTokenInProgress = true;
             this.refreshTokenSubject.next(null);
 
-            return this.autApiService.refreshToken(refreshToken).pipe(
+            return this.tokenApi.refreshToken(refreshToken).pipe(
               switchMap((token) => {
                 this.refreshTokenSubject.next(token.access);
-                this.authService.setAccessToken(token.access);
+                this.tokenService.setAccessToken(token.access);
                 return next.handle(this.addTokenToReq(req));
               }),
               finalize(() => { this.refreshTokenInProgress = false })

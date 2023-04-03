@@ -1,18 +1,22 @@
 import { CookieService } from 'ngx-cookie-service';
 import { Injectable } from '@angular/core';
-import { TokenBody, TokenJWT } from '@features/user';
+import { TokenEnum } from '../enums';
+import { TokenBody, TokenResponse } from '../interfaces';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class TokenService {
 
-  constructor(private cookie: CookieService) {
+  public get token(): string {
+    return this.cookie.get(TokenEnum.AccessToken);
   }
 
+  constructor(private cookie: CookieService) {}
+
   public removeToken() {
-    if (this.cookie.check('token_access')) this.cookie.delete('token_access', '/');
-    if (this.cookie.check('token_refresh')) this.cookie.delete('token_refresh', '/');
+    this.cookie.delete(TokenEnum.AccessToken, '/');
+    this.cookie.delete(TokenEnum.RefreshToken, '/');
   }
 
   public parseJWTToken(token: string): TokenBody {
@@ -25,12 +29,12 @@ export class AuthService {
     return JSON.parse(jsonPayload);
   }
 
-  public setTokenCookie(token: TokenJWT) {
+  public storeToCookie(token: TokenResponse) {
     const cookieExists: boolean = this.accessTokenExists() || this.refreshTokenExists();
 
     if (cookieExists) {
-      this.cookie.delete('token_access');
-      this.cookie.delete('token_refresh');
+      this.cookie.delete(TokenEnum.AccessToken);
+      this.cookie.delete(TokenEnum.RefreshToken);
     }
 
     this.setAccessToken(token.access);
@@ -52,15 +56,15 @@ export class AuthService {
   }
 
   public refreshTokenExists() {
-    return this.cookie.check('token_refresh');
+    return this.cookie.check(TokenEnum.RefreshToken);
   }
 
   public accessTokenExists() {
-    return this.cookie.check('token_access');
+    return this.cookie.check(TokenEnum.AccessToken);
   }
 
   public isLoggedIn(): boolean {
-    const isLogged = Boolean(this.cookie.check('token_refresh') && localStorage.getItem('usr'));
+    const isLogged = Boolean(this.cookie.check(TokenEnum.RefreshToken) && localStorage.getItem('usr'));
     if (!isLogged) this.onLogout();
     return isLogged;
   }

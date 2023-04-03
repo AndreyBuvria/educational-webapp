@@ -1,20 +1,19 @@
-import { AuthService } from '../../../features/auth/services';
-import { UserSimple } from '@features/user';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { JoinCourseComponent, FindCourseComponent } from '@features/course';
 import { AppRoutesEnum } from '@core/enums';
+import { TokenService } from '@features/auth';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-  @Input() public user!: UserSimple | null;
+  @Input() public user!: any;
 
   constructor(
-    private auth: AuthService,
+    private auth: TokenService,
     private router: Router,
     public modal: MatDialog) { }
 

@@ -2,9 +2,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, switchMap, takeUntil, Observable } from 'rxjs';
-import { AuthService, AuthApi } from '@features/auth';
-import { TokenJWT, User, UserService } from '@features/user';
+import { Subject, filter, takeUntil } from 'rxjs';
+import { TokenService, TokenApi } from '@features/auth';
+import { UserLogin, UserService } from '@features/user';
+import { Store } from '@ngrx/store';
+import { AppState } from '@store';
+import { login } from '@store/actions';
+import { selectLogin } from '@store/selectors/auth.selectors';
+import { AuthOperationDataState, AuthState } from '@store/states';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +20,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public hide: boolean = true;
   public form!: FormGroup;
-  public sumbitted: boolean = false;
+  public isLoading: boolean = false;
   public validatorsLength: { firstname: number } = {
     firstname: 20,
   };
@@ -27,10 +32,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private authService: AuthService,
-    private authApiService: AuthApi,
-    private userService: UserService,
     private snackBar: MatSnackBar,
+    private store: Store<AppState>
   ) { }
 
   ngOnInit(): void {
@@ -38,6 +41,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       username: new FormControl('', [Validators.required, Validators.maxLength(this.validatorsLength.firstname)]),
       password: new FormControl('', [Validators.required]),
     });
+
+    this.initLoginResult();
   }
 
   public goSignup() {
@@ -47,37 +52,34 @@ export class LoginComponent implements OnInit, OnDestroy {
   public onSubmit() {
     if (this.form.invalid) return;
 
-    this.sumbitted = true;
-
-    const data = {
+    const data: UserLogin = {
       username: this.form.get('username')!.value,
       password: this.form.get('password')!.value
     };
 
-    this.authApiService.obtainToken(data)
-      .pipe(takeUntil(this.destroy$))
-      .pipe(switchMap((token: TokenJWT) => {
-        this.authService.setTokenCookie(token);
-        const parsedToken = this.authService.parseJWTToken(token.refresh);
-        return this.userService.getUser(parsedToken.user_id) as Observable<User>;
-      }))
-      .subscribe({
-        next: (user: User) => {
-          this.userService.storeUser(user);
-          this.router.navigate(['/', 'student']);
-        },
-        error: (err) => {
-          console.log(err);
-          this.form.get('username')?.setErrors({'incorrect': true});
-          this.form.get('password')?.setErrors({'incorrect': true});
+    this.store.dispatch(login(data));
+  }
 
-          const snackBarRef = this.snackBar.open('Check the correctness of the entered data', 'Close', {
-            duration: 5000,
-            horizontalPosition: 'end'
-          });
-        }
+  private initLoginResult() {
+    this.store.select(selectLogin).pipe(
+      takeUntil(this.destroy$),
+      filter(Boolean)
+    ).subscribe((data: AuthOperationDataState) => {
+      if (data.success) {
+        this.router.navigate(['/', 'student']);
+        return;
+      }
+
+      const errorMessage = data.error!;
+
+      this.form.get('username')?.setErrors({'incorrect': true});
+      this.form.get('password')?.setErrors({'incorrect': true});
+
+      this.snackBar.open(errorMessage, 'Close', {
+        duration: 5000,
+        horizontalPosition: 'end'
       });
-    this.sumbitted = false;
+    });
   }
 
   ngOnDestroy(): void {

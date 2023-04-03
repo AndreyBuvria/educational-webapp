@@ -9,9 +9,11 @@ const initialState: UserState = {
 export const userReducer = createReducer(
   initialState,
   on(UserActions.setUser, (state, { user }) => ({
-    user: user
+    ...state,
+    user: user,
   })),
-  on(UserActions.clearUser, () => ({
+  on(UserActions.clearUser, (state) => ({
+    ...state,
     user: null
   })),
 );
