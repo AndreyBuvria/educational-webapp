@@ -3,13 +3,12 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, filter, takeUntil } from 'rxjs';
-import { TokenService, TokenApi } from '@features/auth';
-import { UserLogin, UserService } from '@features/user';
+import { UserLogin } from '@features/user';
 import { Store } from '@ngrx/store';
 import { AppState } from '@store';
 import { login } from '@store/actions';
 import { selectLogin } from '@store/selectors/auth.selectors';
-import { AuthOperationDataState, AuthState } from '@store/states';
+import { AuthOperationDataState } from '@store/states';
 
 @Component({
   selector: 'app-login',
@@ -71,6 +70,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       }
 
       const errorMessage = data.error!;
+
+      console.log(data)
 
       this.form.get('username')?.setErrors({'incorrect': true});
       this.form.get('password')?.setErrors({'incorrect': true});

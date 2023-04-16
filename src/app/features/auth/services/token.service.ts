@@ -64,13 +64,7 @@ export class TokenService {
   }
 
   public isLoggedIn(): boolean {
-    const isLogged = Boolean(this.cookie.check(TokenEnum.RefreshToken) && localStorage.getItem('usr'));
-    if (!isLogged) this.onLogout();
+    const isLogged = this.cookie.check(TokenEnum.RefreshToken);
     return isLogged;
-  }
-
-  public onLogout() {
-    this.removeToken();
-    if (localStorage.getItem('usr')) localStorage.removeItem('usr');
   }
 }

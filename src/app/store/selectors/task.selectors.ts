@@ -7,5 +7,5 @@ export const selectTaskFeature = createFeatureSelector<TaskState>(FeatureKeysEnu
 
 export const selectTaskListToCourse = createSelector(
   selectTaskFeature,
-  (state: TaskState): TaskItem[] => state.taskList
+  (state: TaskState): TaskItem[] => state.taskListToCourse
 );

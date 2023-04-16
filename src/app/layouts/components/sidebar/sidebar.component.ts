@@ -1,43 +1,24 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { JoinCourseComponent, FindCourseComponent } from '@features/course';
 import { AppRoutesEnum } from '@core/enums';
-import { TokenService } from '@features/auth';
+import { User } from '@features/user';
+import { Store } from '@ngrx/store';
+import { AppState } from '@store';
+import { selectUser } from '@store/selectors';
+import { Observable, tap } from 'rxjs';
+import { UserRolesEnum } from '@features/user/enums';
+import { AuthService } from '@features/auth/services/auth.service';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+  styleUrls: ['./sidebar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarComponent implements OnInit {
-  @Input() public user!: any;
-
-  constructor(
-    private auth: TokenService,
-    private router: Router,
-    public modal: MatDialog) { }
-
-  ngOnInit(): void {
-  }
-  ngOnDestroy(): void {
-  }
-
-  public onLogout() {
-    this.auth.onLogout();
-    this.router.navigate(['/', 'auth']);
-  }
-
-  public onOpenFindCourseModal() {
-    let modalRef = this.modal.open(FindCourseComponent, {
-      width: '650px',
-    });
-  }
-
-  public onOpenJoinCourseModal() {
-    let modalRef = this.modal.open(JoinCourseComponent, {
-      width: '400px',
-    });
-  }
+  public user$: Observable<User> = this.store.select(selectUser);
+  public userRole: typeof UserRolesEnum = UserRolesEnum;
 
   public get studentRoute() {
     return `/${AppRoutesEnum.Student}`;
@@ -50,5 +31,33 @@ export class SidebarComponent implements OnInit {
   }
   public get userRouter() {
     return `/${AppRoutesEnum.User}`;
+  }
+
+  constructor(
+    private readonly authService: AuthService,
+    private readonly router: Router,
+    private readonly modal: MatDialog,
+    private readonly store: Store<AppState>
+    ) { }
+
+  ngOnInit(): void {}
+  ngOnDestroy(): void {
+  }
+
+  public onOpenFindCourseModal() {
+    this.modal.open(FindCourseComponent, {
+      width: '650px',
+    });
+  }
+
+  public onOpenJoinCourseModal() {
+    this.modal.open(JoinCourseComponent, {
+      width: '400px',
+    });
+  }
+
+  public onLogout() {
+    this.authService.logout();
+    this.router.navigateByUrl(this.authRoute + '/login');
   }
 }

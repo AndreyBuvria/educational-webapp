@@ -4,16 +4,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
-import { APP_CONFIG_PROVIDER, TokenInterceptor } from './core';
+import { APP_CONFIG_PROVIDER, TOKEN_INTERCEPTOR_PROVIDER } from './core';
 import { SharedModule } from '@shared';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { StoreModule } from '@ngrx/store';
 import { userReducer } from '@store/reducers';
 import { EffectsModule } from '@ngrx/effects';
-import { AuthEffects, UserEffects } from '@store/effects';
+import { UserEffects } from '@store/effects';
 
 
 @NgModule({
@@ -36,11 +36,7 @@ import { AuthEffects, UserEffects } from '@store/effects';
   providers: [
     CookieService,
     APP_CONFIG_PROVIDER,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true
-    }
+    TOKEN_INTERCEPTOR_PROVIDER,
   ],
   bootstrap: [AppComponent],
 })
