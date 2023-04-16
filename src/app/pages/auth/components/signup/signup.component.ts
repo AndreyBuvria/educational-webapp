@@ -1,4 +1,4 @@
-import { TokenApi } from '@features/auth';
+import { TokenApi } from '@features/auth/apis/token.api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';

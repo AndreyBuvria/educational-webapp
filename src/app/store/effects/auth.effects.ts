@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import * as AuthActions from '../actions/auth.actions';
-import { TokenApi, TokenResponse, TokenService } from "@features/auth";
-import { EMPTY, catchError, exhaustMap, map, of, switchMap } from "rxjs";
+import { TokenResponse, TokenService } from "@features/auth";
+import { TokenApi } from '@features/auth/apis/token.api';
+import { catchError, exhaustMap, of, switchMap } from "rxjs";
 import { UserLogin } from "@features/user";
 import { invokeFetchingUser } from "@store/actions";
 import { HttpErrorResponse } from "@angular/common/http";

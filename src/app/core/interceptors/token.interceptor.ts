@@ -7,9 +7,10 @@ import {
   HttpInterceptor,
   HttpErrorResponse
 } from '@angular/common/http';
-import { BehaviorSubject, catchError, filter, finalize, Observable, switchMap, take, tap, throwError } from 'rxjs';
-import { TokenService, TokenApi, TokenResponse } from '@features/auth';
+import { catchError, Observable, switchMap, take, tap, throwError } from 'rxjs';
 import { AuthTokenState } from '@core/states';
+import { TokenResponse, TokenService } from '@features/auth';
+import { TokenApi } from '@features/auth/apis/token.api';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
