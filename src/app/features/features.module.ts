@@ -7,8 +7,8 @@ import { UserModule } from "./user";
 
 @NgModule({
   exports: [
-    CourseModule,
     TaskModule,
+    CourseModule,
     FileModule,
     ContentControlsModule,
     UserModule,

@@ -13,7 +13,6 @@ export class TaskService {
   private _tasksRelatedToCoursePaginationData$: BehaviorSubject<PaginationData | null> = new BehaviorSubject<PaginationData | null>(null);
 
   public tasks$: Observable<TaskItem[]> = this.initTasks();
-  public tasksRelatedToCourse$: Observable<TaskItem[] | null> = this.initTasksRelatedToCourse();
 
   constructor(
     private taskApi: TaskApi,
@@ -23,13 +22,8 @@ export class TaskService {
   private initTasks(): Observable<TaskItem[]> {
     return this.taskApi.getList();
   }
-  public initTasksRelatedToCourse(): Observable<TaskItem[] | null> {
-    return this.courseService.currentCourseID$
-      .pipe(
-        switchMap((courseID: number | null) => {
-          return courseID ? this.taskApi.getListByCourseId(courseID) : of(null);
-        })
-    );
+  public initTasksRelatedToCourse(courseId: number): Observable<TaskItem[] | null> {
+    return this.taskApi.getListByCourseId(courseId);
   }
 
   public getTask(taskID: TaskItem['id']): Observable<TaskItem> {

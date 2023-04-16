@@ -7,28 +7,42 @@ import { TaskItem } from '..';
 })
 export class SortPipe implements PipeTransform {
   transform(taskList: TaskItem[], param: FilterSortValues): TaskItem[] {
-    return taskList.sort(this.sortCompareFn(param));
+    const newList = [...taskList];
+
+    return this.sort(newList, param);
   }
 
-  private sortCompareFn(sortType: FilterSortValues): (a: any, b: any) => number {
-    const sortOrder: number = 1;
-    let property: string;
+  private sort(taskList: TaskItem[], param: FilterSortValues) {
+    switch(param) {
+      case FilterSortValues.Name:
+        return taskList.sort((a: TaskItem, b: TaskItem) => {
+          return new Intl.Collator().compare(a.name, b.name);
+        });
+      case FilterSortValues.Date:
+        return taskList.sort((a: TaskItem, b: TaskItem) => {
+          return a.timecreated < b.timecreated ? 1 : -1;
+        });
+      case FilterSortValues.Active:
+        return taskList.sort((a: TaskItem, b: TaskItem) => {
+          if (a && !b) {
+            return 1;
+          }
 
-    if (sortType == FilterSortValues.Default) {
-      property = 'id';
-    } else if (sortType == FilterSortValues.Date) {
-      property = 'timecreated';
-    } else if (sortType == FilterSortValues.Name) {
-      property = 'name';
-    } else if(sortType == FilterSortValues.Active) {
-      property = 'expires';
-    }
+          if (!a && b) {
+            return -1;
+          }
 
-    return (a: any, b: any) => {
-        let result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
-        if (sortType == FilterSortValues.Active) result = (a[property] < b[property]) ? 1 : (a[property] > b[property]) ? -1 : 0;
+          const aExpire = a.expires as Date;
+          const bExpire = b.expires as Date;
+          const currentDate = new Date();
 
-        return result * sortOrder;
+          if (aExpire < currentDate && bExpire > currentDate) return 1;
+          if (bExpire < currentDate && aExpire > currentDate) return -1;
+
+          return aExpire < bExpire ? 1 : -1;
+        });
+      default:
+       return taskList;
     }
   }
 

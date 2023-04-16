@@ -18,7 +18,7 @@ import { TaskEffects } from "@store/effects/task.effects";
     SharedModule,
     ReactiveFormsModule,
     StoreModule.forFeature(FeatureKeysEnum.Task, taskToCourseReducer),
-    EffectsModule.forFeature([TaskEffects])
+    //EffectsModule.forFeature([TaskEffects])
   ],
   exports: [
     TaskItemComponent,

@@ -1,7 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { CoursePageComponent, CourseListComponent } from "./components";
-import { CourseGuard } from "@shared/guards";
 
 const routes: Routes = [
   {
@@ -16,7 +15,6 @@ const routes: Routes = [
   {
     path: 'course/:id',
     component: CoursePageComponent,
-    canActivate: [CourseGuard],
   },
   { path: '**', redirectTo: 'course' }
 ];
@@ -24,6 +22,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: [CourseGuard]
+  providers: []
 })
 export class StudentRoutingModule { }

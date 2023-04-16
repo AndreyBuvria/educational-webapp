@@ -7,45 +7,29 @@ import {
   HttpInterceptor,
   HttpErrorResponse
 } from '@angular/common/http';
-import { BehaviorSubject, catchError, filter, finalize, Observable, switchMap, take, throwError } from 'rxjs';
-import { AuthService, AuthApi } from '@features/auth';
+import { BehaviorSubject, catchError, filter, finalize, Observable, switchMap, take, tap, throwError } from 'rxjs';
+import { TokenService, TokenApi, TokenResponse } from '@features/auth';
+import { AuthTokenState } from '@core/states';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-
-  private refreshTokenInProgress = false;
-  private refreshTokenSubject = new BehaviorSubject(null);
-
   constructor(
     private cookie: CookieService,
-    private authService: AuthService,
-    private autApiService: AuthApi
+    private tokenService: TokenService,
+    private tokenApi: TokenApi,
+    private authTokenState: AuthTokenState
   ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(this.addTokenToReq(req)).pipe(
       catchError((requestError: HttpErrorResponse) => {
         if (requestError && requestError.status === 401) {
-          if (this.refreshTokenInProgress) {
-            return this.refreshTokenSubject.pipe(
-              filter((result: any) => result),
-              take(1),
+          if (this.authTokenState.isRefreshingToken) {
+            return this.authTokenState.accessToken$.pipe(
               switchMap(() => next.handle(this.addTokenToReq(req)))
             );
           } else {
-            const refreshToken = this.cookie.get('token_refresh');
-
-            this.refreshTokenInProgress = true;
-            this.refreshTokenSubject.next(null);
-
-            return this.autApiService.refreshToken(refreshToken).pipe(
-              switchMap((token) => {
-                this.refreshTokenSubject.next(token.access);
-                this.authService.setAccessToken(token.access);
-                return next.handle(this.addTokenToReq(req));
-              }),
-              finalize(() => { this.refreshTokenInProgress = false })
-            );
+            return this.refreshToken(req, next);
           }
         } else {
           return throwError(() => new Error(requestError.message));
@@ -60,6 +44,29 @@ export class TokenInterceptor implements HttpInterceptor {
         Authorization: `Bearer ${this.cookie.get('token_access')}`
       }
     });
+  }
+
+  private refreshToken(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>  {
+    const refreshToken = this.cookie.get('token_refresh');
+
+    this.authTokenState.isRefreshingToken = true;
+    this.authTokenState.setToken(null);
+
+    return this.tokenApi.refreshToken(refreshToken).pipe(
+      tap((token: TokenResponse) => {
+        this.tokenService.setAccessToken(token.access);
+      }),
+      switchMap((token: TokenResponse) => {
+        this.authTokenState.setToken(token.access);
+        this.authTokenState.isRefreshingToken = false;
+
+        return next.handle(this.addTokenToReq(req));
+      }),
+      catchError(() => {
+        this.authTokenState.isRefreshingToken = false;
+        return throwError(() => new Error('Failed to refresh token'))
+      })
+    );
   }
 }
 

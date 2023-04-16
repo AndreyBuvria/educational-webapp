@@ -2,13 +2,13 @@ import { CourseApi, CourseItem, CourseService } from '@features/course';
 import { AppRoutesEnum } from '@core/enums';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Subscription, switchMap } from 'rxjs';
+import { Observable, Subscription, filter, map, switchMap } from 'rxjs';
 import { TaskItem, TaskService } from '@features/task';
 import { FilterSortValues } from '@features/content-controls';
 import { Store } from '@ngrx/store';
 import { AppState } from '@store';
-import { invokeFetchingCourse } from '@store/actions';
-import { selectCourseItem } from '@store/selectors';
+import { invokeFetchingCourse, invokeFetchingTasksRelatedToCourse } from '@store/actions';
+import { selectCourseItem, selectTaskListToCourse } from '@store/selectors';
 
 @Component({
   selector: 'app-course-page',
@@ -16,18 +16,18 @@ import { selectCourseItem } from '@store/selectors';
   styleUrls: ['./course.component.scss'],
 })
 export class CoursePageComponent implements OnInit, OnDestroy {
-  public taskList!: Observable<TaskItem[] | null>;
-  public course: Observable<CourseItem> = this.store.select(selectCourseItem);
+  public taskList: Observable<TaskItem[]> = this.store.select(selectTaskListToCourse);
+  public course: Observable<CourseItem | null> = this.store.select(selectCourseItem);
   public sortTypeValue: FilterSortValues = FilterSortValues.Default;
+
+  private readonly courseId = this.route.snapshot.params['id'];
 
   private sub!: Subscription;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private courseService: CourseService,
     private courseApi: CourseApi,
-    private taskService: TaskService,
     private store: Store<AppState>
   ) { }
 
@@ -41,12 +41,10 @@ export class CoursePageComponent implements OnInit, OnDestroy {
   }
 
   private initTaskList() {
-    this.taskList = this.taskService.tasksRelatedToCourse$;
+    this.store.dispatch(invokeFetchingTasksRelatedToCourse({ courseId: this.courseId }));
   }
   private initCourse() {
-    const paramId = this.route.snapshot.params['id'];
-
-    this.store.dispatch(invokeFetchingCourse({ id: paramId }));
+    this.store.dispatch(invokeFetchingCourse({ id: this.courseId }));
   }
 
   public onLeaveCourse(courseID: CourseItem['id']) {
