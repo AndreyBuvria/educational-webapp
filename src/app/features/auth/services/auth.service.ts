@@ -11,7 +11,8 @@ export class AuthService {
   constructor(
     private readonly tokenService: TokenService,
     private readonly store: Store<AppState>
-  ) {}
+  ) {
+  }
 
   public logout() {
     this.tokenService.removeToken();
