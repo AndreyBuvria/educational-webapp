@@ -2,6 +2,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { Injectable } from '@angular/core';
 import { TokenEnum } from '../enums';
 import { TokenBody, TokenResponse } from '../interfaces';
+import { AuthTokenState } from '@core/states';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,10 @@ export class TokenService {
     return this.cookie.get(TokenEnum.AccessToken);
   }
 
-  constructor(private cookie: CookieService) {}
+  constructor(
+    private cookie: CookieService,
+    private tokenState: AuthTokenState
+  ) {}
 
   public removeToken() {
     this.cookie.delete(TokenEnum.AccessToken, '/');
@@ -46,6 +50,8 @@ export class TokenService {
     const expires: Date = new Date(0);
     expires.setUTCSeconds(tokenBody.exp);
     this.cookie.set('token_access', token, expires, '/');
+
+    this.tokenState.setToken(token);
   }
 
   public setRefreshToken(token: string) {

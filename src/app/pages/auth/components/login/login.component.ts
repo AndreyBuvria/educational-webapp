@@ -16,7 +16,6 @@ import { AuthOperationDataState } from '@store/states';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-
   public hide: boolean = true;
   public form!: FormGroup;
   public isLoading: boolean = false;
